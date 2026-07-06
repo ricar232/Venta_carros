@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import CarCard from '../components/CarCard.jsx';
 import { fetchCars, formatPrice } from '../lib/carsApi.js';
@@ -106,13 +106,29 @@ export default function Catalog() {
 
           <div>
             <p style={filterLabelStyle}>Tipo</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {ALL_TYPES.map((t) => {
                 const active = filters.types.includes(t);
                 const count = cars.filter((c) => c.type === t).length;
                 return (
-                  <label key={t} style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 14, cursor: 'pointer', color: active ? 'oklch(0.97 0.008 30)' : 'oklch(0.72 0.015 30)' }}>
-                    <input type="checkbox" checked={active} onChange={() => toggleType(t)} style={{ accentColor: 'oklch(0.72 0.17 55)', width: 16, height: 16 }} />
+                  <label
+                    key={t}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 10,
+                      fontSize: 14,
+                      cursor: 'pointer',
+                      padding: '7px 8px',
+                      margin: '0 -8px',
+                      borderRadius: 8,
+                      color: active ? 'oklch(0.97 0.008 30)' : 'oklch(0.72 0.015 30)',
+                      transition: 'background 0.15s ease',
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = 'oklch(1 0 0 / 0.05)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                  >
+                    <input type="checkbox" className="veltra-checkbox" checked={active} onChange={() => toggleType(t)} />
                     {t} <span style={{ color: 'oklch(0.5 0.015 30)', fontSize: 12.5 }}>({count})</span>
                   </label>
                 );
@@ -125,6 +141,7 @@ export default function Catalog() {
             <select
               value={filters.make}
               onChange={(e) => setFilters((f) => ({ ...f, make: e.target.value }))}
+              className="veltra-select"
               style={selectStyle}
             >
               <option value="">Todas las marcas</option>
@@ -145,7 +162,7 @@ export default function Catalog() {
               step={1000}
               value={filters.maxPrice}
               onChange={(e) => setFilters((f) => ({ ...f, maxPrice: Number(e.target.value) }))}
-              style={{ width: '100%' }}
+              style={rangeTrackStyle(filters.maxPrice, 15000, 95000)}
             />
             <p style={{ fontSize: 13.5, color: 'oklch(0.85 0.01 30)', margin: '8px 0 0', fontWeight: 700 }}>Hasta ${filters.maxPrice.toLocaleString('en-US')}</p>
           </div>
@@ -159,7 +176,7 @@ export default function Catalog() {
               step={1}
               value={filters.minYear}
               onChange={(e) => setFilters((f) => ({ ...f, minYear: Number(e.target.value) }))}
-              style={{ width: '100%' }}
+              style={rangeTrackStyle(filters.minYear, 2018, 2024)}
             />
             <p style={{ fontSize: 13.5, color: 'oklch(0.85 0.01 30)', margin: '8px 0 0', fontWeight: 700 }}>{filters.minYear} en adelante</p>
           </div>
@@ -193,12 +210,12 @@ export default function Catalog() {
             </div>
           </div>
 
-          <label style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 14, cursor: 'pointer', paddingTop: 6, borderTop: '1px solid oklch(1 0 0 / 0.08)' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, cursor: 'pointer', paddingTop: 16, borderTop: '1px solid oklch(1 0 0 / 0.08)' }}>
             <input
               type="checkbox"
+              className="veltra-checkbox"
               checked={filters.onlyVerified}
               onChange={() => setFilters((f) => ({ ...f, onlyVerified: !f.onlyVerified }))}
-              style={{ accentColor: 'oklch(0.72 0.17 55)', width: 16, height: 16 }}
             />
             Solo vendedores verificados
           </label>
@@ -226,7 +243,12 @@ export default function Catalog() {
                 </button>
               )}
             </div>
-            <select value={sort} onChange={(e) => setSort(e.target.value)} style={{ ...selectStyle, width: 'auto', background: 'oklch(0.21 0.016 30)', color: 'oklch(0.9 0.01 30)', fontSize: 13.5, padding: '9px 14px' }}>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              className="veltra-select"
+              style={{ ...selectStyle, width: 'auto', backgroundColor: 'oklch(0.21 0.016 30)', color: 'oklch(0.9 0.01 30)', fontSize: 13.5, padding: '9px 14px' }}
+            >
               <option value="recent">Más recientes</option>
               <option value="price-asc">Precio: menor a mayor</option>
               <option value="price-desc">Precio: mayor a menor</option>
@@ -243,33 +265,25 @@ export default function Catalog() {
             </div>
           )}
           {noResults && (
-            <div style={{ textAlign: 'center', padding: '100px 20px', border: '1px dashed oklch(1 0 0 / 0.15)', borderRadius: 20 }}>
-              <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, margin: '0 0 8px' }}>Sin resultados</p>
-              <p style={{ fontSize: 14.5, color: 'oklch(0.65 0.015 30)', margin: '0 0 20px' }}>Ajusta los filtros para ver más anuncios.</p>
-              <button
-                type="button"
-                onClick={() => setFilters(emptyFilters)}
-                style={{
-                  background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
-                  border: 'none',
-                  color: 'oklch(0.14 0.012 30)',
-                  fontWeight: 700,
-                  fontSize: 14,
-                  padding: '12px 24px',
-                  borderRadius: 100,
-                  cursor: 'pointer',
-                }}
-              >
+            <div style={emptyStateStyle}>
+              <div style={emptyIconStyle}>🔍</div>
+              <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 28, margin: '0 0 8px' }}>Sin resultados</p>
+              <p style={{ fontSize: 14.5, color: 'oklch(0.65 0.015 30)', margin: '0 0 24px' }}>Ajusta los filtros para ver más anuncios.</p>
+              <button type="button" onClick={() => setFilters(emptyFilters)} className="veltra-submit-btn" style={emptyCtaStyle}>
                 Limpiar filtros
               </button>
             </div>
           )}
           {noCarsAtAll && (
-            <div style={{ textAlign: 'center', padding: '100px 20px', border: '1px dashed oklch(1 0 0 / 0.15)', borderRadius: 20 }}>
-              <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, margin: '0 0 8px' }}>Aún no hay anuncios</p>
-              <p style={{ fontSize: 14.5, color: 'oklch(0.65 0.015 30)', margin: 0 }}>
-                Corre <code>npm run seed</code> o publica anuncios para que el catálogo se llene con datos.
+            <div style={emptyStateStyle}>
+              <div style={emptyIconStyle}>🚗</div>
+              <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 28, margin: '0 0 8px' }}>Aún no hay anuncios</p>
+              <p style={{ fontSize: 14.5, color: 'oklch(0.65 0.015 30)', margin: '0 0 24px', maxWidth: 380, marginLeft: 'auto', marginRight: 'auto' }}>
+                Sé el primero en publicar tu auto en VELTRA — es gratis y toma solo unos minutos.
               </p>
+              <Link to="/publicar" className="veltra-submit-btn" style={{ ...emptyCtaStyle, textDecoration: 'none', display: 'inline-block' }}>
+                Publicar mi auto →
+              </Link>
             </div>
           )}
         </div>
@@ -282,11 +296,50 @@ const filterLabelStyle = { fontSize: 13, fontWeight: 700, margin: '0 0 12px', te
 
 const selectStyle = {
   width: '100%',
-  background: 'oklch(0.16 0.014 30)',
+  backgroundColor: 'oklch(0.16 0.014 30)',
   border: '1px solid oklch(1 0 0 / 0.12)',
   color: 'oklch(0.95 0.008 30)',
   fontFamily: "'Manrope', sans-serif",
   fontSize: 14,
   padding: '10px 12px',
   borderRadius: 10,
+};
+
+function rangeTrackStyle(value, min, max) {
+  const pct = ((value - min) / (max - min)) * 100;
+  return {
+    width: '100%',
+    backgroundImage: `linear-gradient(to right, oklch(0.72 0.17 55) ${pct}%, oklch(1 0 0 / 0.12) ${pct}%)`,
+  };
+}
+
+const emptyStateStyle = {
+  textAlign: 'center',
+  padding: '90px 20px',
+  background: 'oklch(0.21 0.016 30 / 0.4)',
+  border: '1px dashed oklch(1 0 0 / 0.15)',
+  borderRadius: 20,
+};
+
+const emptyIconStyle = {
+  width: 64,
+  height: 64,
+  margin: '0 auto 20px',
+  borderRadius: '50%',
+  background: 'linear-gradient(135deg, oklch(0.63 0.20 25 / 0.25), oklch(0.72 0.17 55 / 0.25))',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: 28,
+};
+
+const emptyCtaStyle = {
+  background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+  border: 'none',
+  color: 'oklch(0.14 0.012 30)',
+  fontWeight: 700,
+  fontSize: 14,
+  padding: '13px 26px',
+  borderRadius: 100,
+  cursor: 'pointer',
 };
