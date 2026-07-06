@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CarCard from '../components/CarCard.jsx';
 import { useReveal } from '../lib/useReveal.js';
 import { fetchCars, formatPrice } from '../lib/carsApi.js';
+import { getSession, clearSession } from '../lib/auth.js';
 
 const MARQUEE_BRANDS = [
   'Toyota', 'Honda', 'BMW', 'Tesla', 'Mercedes-Benz', 'Ford', 'Mazda', 'Hyundai', 'Kia', 'Volkswagen', 'Nissan', 'Porsche',
@@ -51,8 +52,10 @@ const CATEGORIES = [
 ];
 
 export default function Landing() {
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [session, setSession] = useState(getSession());
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [cars, setCars] = useState([]);
@@ -121,6 +124,13 @@ export default function Landing() {
     setMouse({ x: (e.clientX - rect.left) / rect.width - 0.5, y: (e.clientY - rect.top) / rect.height - 0.5 });
   }
 
+  function handleLogout() {
+    clearSession();
+    setSession(getSession());
+    setMenuOpen(false);
+    navigate('/');
+  }
+
   const typeCount = (t) => cars.filter((c) => c.type === t).length;
   const heroCar = cars.length ? cars[0] : null;
   const heroBadge = cars.length ? cars.length + ' autos verificados' : carsLoaded ? 'Sé el primero en publicar' : 'Cargando anuncios…';
@@ -167,7 +177,21 @@ export default function Landing() {
             <a href="#financiamiento" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Financiamiento</a>
           </div>
           <div className="veltra-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <Link to="/login" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600, padding: '10px 4px' }}>Iniciar sesión</Link>
+            {session.token ? (
+              <>
+                <Link to="/mis-anuncios" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Mis anuncios</Link>
+                <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)' }}>Hola, {(session.user?.name || '').split(' ')[0]}</span>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  style={{ background: 'none', border: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600, cursor: 'pointer', padding: 0, fontFamily: "'Manrope', sans-serif" }}
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            ) : (
+              <Link to="/login" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600, padding: '10px 4px' }}>Iniciar sesión</Link>
+            )}
             <Link
               to="/publicar"
               className="veltra-cta"
@@ -215,7 +239,21 @@ export default function Landing() {
             <a href="#como-funciona" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Cómo funciona</a>
             <a href="#vender" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Vender</a>
             <a href="#financiamiento" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Financiamiento</a>
-            <Link to="/login" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Iniciar sesión</Link>
+            {session.token ? (
+              <>
+                <Link to="/mis-anuncios" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Mis anuncios</Link>
+                <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)', padding: '12px 4px' }}>Hola, {(session.user?.name || '').split(' ')[0]}</span>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  style={{ background: 'none', border: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600, cursor: 'pointer', fontFamily: "'Manrope', sans-serif" }}
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            ) : (
+              <Link to="/login" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Iniciar sesión</Link>
+            )}
             <Link
               to="/publicar"
               onClick={() => setMenuOpen(false)}
