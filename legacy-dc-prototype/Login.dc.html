@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: oklch(0.16 0.014 30); }
+    input::placeholder { color: oklch(0.5 0.015 30); }
+  </style>
+</helmet>
+
+<div data-screen-label="Iniciar sesión" style="font-family:'Manrope',sans-serif;background:oklch(0.16 0.014 30);color:oklch(0.97 0.008 30);min-height:100vh;display:flex;flex-direction:column;">
+
+  <nav style="background:oklch(0.14 0.012 30 / 0.85);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid oklch(1 0 0 / 0.08);">
+    <div style="max-width:1280px;margin:0 auto;padding:0 32px;height:74px;display:flex;align-items:center;justify-content:space-between;">
+      <a href="Landing.dc.html" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:oklch(0.97 0.008 30);">
+        <span style="width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55));display:inline-block;transform:rotate(-8deg);box-shadow:0 4px 14px -4px oklch(0.63 0.20 25 / 0.7);flex-shrink:0;"></span>
+        <span style="font-family:'Instrument Serif', serif;font-style:italic;font-size:26px;line-height:1;">VELTRA</span>
+        <span style="font-family:'Manrope',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:oklch(0.68 0.015 30);">marketplace</span>
+      </a>
+      <a href="Register.dc.html" style="text-decoration:none;color:oklch(0.9 0.01 30);font-size:14.5px;font-weight:600;">¿No tienes cuenta? <span style="color:oklch(0.72 0.17 55);font-weight:700;">Regístrate gratis</span></a>
+    </div>
+  </nav>
+
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:60px 32px;">
+    <div style="width:100%;max-width:420px;background:oklch(0.21 0.016 30 / 0.55);border:1px solid oklch(1 0 0 / 0.08);border-radius:24px;padding:36px;backdrop-filter:blur(20px);">
+      <h2 style="margin:0 0 6px;font-family:'Instrument Serif', serif;font-weight:400;font-size:28px;text-align:center;">Bienvenido de vuelta</h2>
+      <p style="margin:0 0 28px;font-size:13.5px;color:oklch(0.6 0.015 30);text-align:center;">Inicia sesión para publicar y administrar tus anuncios.</p>
+
+      <form onSubmit="{{ handleSubmit }}" style="display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <label style="display:block;font-size:12.5px;font-weight:700;color:oklch(0.68 0.015 30);margin-bottom:6px;">Correo electrónico</label>
+          <input type="email" value="{{ fields.email }}" onChange="{{ setField.email }}" placeholder="tu@correo.com" required="{{ true }}" style="width:100%;background:oklch(0.16 0.014 30);border:1px solid oklch(1 0 0 / 0.12);color:oklch(0.95 0.008 30);font-family:'Manrope',sans-serif;font-size:14px;padding:12px 14px;border-radius:10px;" />
+        </div>
+        <div>
+          <label style="display:block;font-size:12.5px;font-weight:700;color:oklch(0.68 0.015 30);margin-bottom:6px;">Contraseña</label>
+          <input type="password" value="{{ fields.password }}" onChange="{{ setField.password }}" placeholder="Tu contraseña" required="{{ true }}" style="width:100%;background:oklch(0.16 0.014 30);border:1px solid oklch(1 0 0 / 0.12);color:oklch(0.95 0.008 30);font-family:'Manrope',sans-serif;font-size:14px;padding:12px 14px;border-radius:10px;" />
+        </div>
+
+        <sc-if value="{{ error }}">
+          <p style="font-size:13px;color:oklch(0.7 0.19 25);background:oklch(0.63 0.20 25 / 0.12);border:1px solid oklch(0.63 0.20 25 / 0.35);padding:10px 14px;border-radius:10px;margin:0;">{{ error }}</p>
+        </sc-if>
+        <sc-if value="{{ success }}">
+          <p style="font-size:13px;color:oklch(0.72 0.17 55);background:oklch(0.72 0.17 55 / 0.12);border:1px solid oklch(0.72 0.17 55 / 0.35);padding:10px 14px;border-radius:10px;margin:0;">Sesión iniciada correctamente.</p>
+        </sc-if>
+
+        <button type="submit" disabled="{{ submitting }}" style="margin-top:6px;width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55));color:oklch(0.14 0.012 30);font-weight:800;font-size:15px;cursor:pointer;opacity:{{ submitting ? 0.7 : 1 }};transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px);box-shadow:0 14px 30px -8px oklch(0.63 0.20 25 / 0.7);">{{ submitLabel }}</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    fields: { email: '', password: '' },
+    submitting: false,
+    error: '',
+    success: false,
+  };
+
+  setField(key, value) {
+    this.setState((s) => ({ fields: { ...s.fields, [key]: value } }));
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.setState({ submitting: true, error: '', success: false });
+    import('./auth.js').then((auth) => {
+      auth
+        .loginUser(this.state.fields)
+        .then((data) => {
+          auth.saveSession(data);
+          this.setState({ submitting: false, success: true });
+        })
+        .catch((err) => {
+          this.setState({ submitting: false, error: err.message });
+        });
+    });
+  }
+
+  renderVals() {
+    const f = this.state.fields;
+    return {
+      fields: f,
+      setField: {
+        email: (e) => this.setField('email', e.target.value),
+        password: (e) => this.setField('password', e.target.value),
+      },
+      handleSubmit: (e) => this.handleSubmit(e),
+      submitting: this.state.submitting,
+      submitLabel: this.state.submitting ? 'Ingresando…' : 'Iniciar sesión',
+      error: this.state.error,
+      success: this.state.success,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

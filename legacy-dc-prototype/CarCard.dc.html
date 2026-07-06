@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<a href="{{ car.href }}" style="display:flex;flex-direction:column;text-decoration:none;color:oklch(0.97 0.008 30);background:oklch(0.21 0.016 30 / 0.55);border:1px solid oklch(1 0 0 / 0.09);border-radius:22px;overflow:hidden;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease, border-color .4s ease;box-shadow:0 10px 30px -15px oklch(0 0 0 / 0.5);position:relative;height:100%;" style-hover="transform:translateY(-8px);box-shadow:0 28px 70px -14px oklch(0 0 0 / 0.7);border-color:oklch(0.63 0.20 25 / 0.55);">
+  <div style="position:relative;height:180px;background:linear-gradient(135deg,{{ car.g1 }},{{ car.g2 }});overflow:hidden;">
+    <div style="position:absolute;inset:-4px;background-image:repeating-linear-gradient(45deg, transparent, transparent 9px, oklch(1 0 0 / 0.05) 9px, oklch(1 0 0 / 0.05) 10px);transition:transform .5s ease;" style-hover="transform:scale(1.08);"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, oklch(1 0 0 / 0.1), transparent 40%);pointer-events:none;"></div>
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+      <span style="font-family:'JetBrains Mono', monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:oklch(1 0 0 / 0.55);background:oklch(0 0 0 / 0.25);padding:6px 10px;border-radius:8px;">foto · {{ car.make }} {{ car.model }}</span>
+    </div>
+    <div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;">
+      <sc-if value="{{ car.verified }}">
+        <span style="display:flex;align-items:center;gap:4px;font-family:'Manrope',sans-serif;font-size:11px;font-weight:700;color:oklch(0.16 0.014 30);background:oklch(0.72 0.17 55);padding:4px 10px 4px 7px;border-radius:100px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="oklch(0.16 0.014 30)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></svg>Verificado</span>
+      </sc-if>
+    </div>
+    <div style="position:absolute;top:12px;right:12px;">
+      <span style="font-family:'Manrope',sans-serif;font-size:11px;font-weight:600;color:oklch(0.9 0.01 30);background:oklch(0 0 0 / 0.4);padding:4px 10px;border-radius:100px;backdrop-filter:blur(6px);">{{ car.type }}</span>
+    </div>
+  </div>
+  <div style="padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1;">
+    <div>
+      <h3 style="margin:0;font-family:'Instrument Serif', serif;font-size:23px;font-weight:400;line-height:1.15;">{{ car.make }} {{ car.model }}</h3>
+      <p style="margin:4px 0 0;font-family:'Manrope',sans-serif;font-size:13px;color:oklch(0.68 0.015 30);">{{ car.year }} · {{ car.mileageFmt }} mi · {{ car.city }}</p>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <span style="font-family:'Manrope',sans-serif;font-size:11px;font-weight:600;color:oklch(0.75 0.02 30);background:oklch(1 0 0 / 0.06);padding:4px 9px;border-radius:100px;">{{ car.fuel }}</span>
+      <span style="font-family:'Manrope',sans-serif;font-size:11px;font-weight:600;color:oklch(0.75 0.02 30);background:oklch(1 0 0 / 0.06);padding:4px 9px;border-radius:100px;">{{ car.transmission }}</span>
+    </div>
+    <div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid oklch(1 0 0 / 0.07);">
+      <span style="font-family:'Instrument Serif', serif;font-style:italic;font-size:22px;color:oklch(0.72 0.17 55);">{{ car.priceFmt }}</span>
+      <span style="font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;color:oklch(0.97 0.008 30);display:flex;align-items:center;gap:4px;">Ver detalle <span style="font-size:16px;">→</span></span>
+    </div>
+  </div>
+</a>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:340,&quot;height&quot;:420},&quot;car&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;object&quot;,&quot;default&quot;:{&quot;href&quot;:&quot;#&quot;,&quot;make&quot;:&quot;Honda&quot;,&quot;model&quot;:&quot;Civic Type R&quot;,&quot;year&quot;:2022,&quot;mileageFmt&quot;:&quot;9,800&quot;,&quot;city&quot;:&quot;Tampa, FL&quot;,&quot;type&quot;:&quot;Deportivo&quot;,&quot;fuel&quot;:&quot;Gasolina&quot;,&quot;transmission&quot;:&quot;Manual&quot;,&quot;priceFmt&quot;:&quot;$46,900&quot;,&quot;verified&quot;:true,&quot;g1&quot;:&quot;oklch(0.60 0.20 25)&quot;,&quot;g2&quot;:&quot;oklch(0.68 0.18 45)&quot;}}}"></script>
+</body>
+</html>

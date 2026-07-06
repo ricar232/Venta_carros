@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: oklch(0.16 0.014 30); }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:oklch(0.72 0.17 55); cursor:pointer; margin-top:-6px; }
+    input[type=range] { -webkit-appearance:none; accent-color: oklch(0.72 0.17 55); }
+  </style>
+</helmet>
+<x-import component-from-global-scope="CarCard" name="CarCard" hint-size="100%,420" style="display:none"></x-import>
+
+<div data-screen-label="Detalle de vehículo" style="font-family:'Manrope',sans-serif;background:oklch(0.16 0.014 30);color:oklch(0.97 0.008 30);min-height:100vh;">
+
+  <nav style="position:sticky;top:0;z-index:50;background:oklch(0.14 0.012 30 / 0.85);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid oklch(1 0 0 / 0.08);">
+    <div style="max-width:1400px;margin:0 auto;padding:0 32px;height:74px;display:flex;align-items:center;justify-content:space-between;">
+      <a href="Landing.dc.html" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:oklch(0.97 0.008 30);">
+        <span style="width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55));display:inline-block;transform:rotate(-8deg);box-shadow:0 4px 14px -4px oklch(0.63 0.20 25 / 0.7);flex-shrink:0;"></span>
+        <span style="font-family:'Instrument Serif', serif;font-style:italic;font-size:26px;line-height:1;">VELTRA</span>
+        <span style="font-family:'Manrope',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:oklch(0.68 0.015 30);">marketplace</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:32px;">
+        <a href="Catalog.dc.html" style="text-decoration:none;color:oklch(0.9 0.01 30);font-size:14.5px;font-weight:600;">Explorar</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <a href="Login.dc.html" style="text-decoration:none;color:oklch(0.9 0.01 30);font-size:14.5px;font-weight:600;">Iniciar sesión</a>
+        <a href="Register.dc.html" style="text-decoration:none;font-weight:700;font-size:14px;color:oklch(0.16 0.014 30);background:linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55));padding:11px 20px;border-radius:100px;transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-2px) scale(1.03);box-shadow:0 12px 30px -6px oklch(0.63 0.20 25 / 0.8);">Publicar anuncio</a>
+      </div>
+    </div>
+  </nav>
+
+  <div style="max-width:1400px;margin:0 auto;padding:28px 32px 0;">
+    <a href="Catalog.dc.html" style="text-decoration:none;color:oklch(0.65 0.015 30);font-size:13.5px;font-weight:600;">← Volver al catálogo</a>
+  </div>
+
+  <sc-if value="{{ notFound }}">
+    <div style="max-width:1400px;margin:0 auto;padding:100px 32px;text-align:center;">
+      <p style="font-family:'Instrument Serif', serif;font-size:32px;margin:0 0 10px;">Anuncio no encontrado</p>
+      <p style="font-size:15px;color:oklch(0.65 0.015 30);margin:0;">Conecta tu backend de Node.js (GET /api/cars) o revisa que el id en la URL sea correcto.</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasCar }}" hint-placeholder-val="{{ true }}">
+  <div style="max-width:1400px;margin:0 auto;padding:20px 32px 110px;display:grid;grid-template-columns:1fr 380px;gap:36px;align-items:flex-start;">
+
+    <div>
+      <!-- GALLERY -->
+      <div style="position:relative;border-radius:24px;overflow:hidden;border:1px solid oklch(1 0 0 / 0.1);background:linear-gradient(135deg,{{ car.g1 }},{{ car.g2 }});height:460px;">
+        <div style="position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, transparent, transparent 11px, oklch(1 0 0 / 0.05) 11px, oklch(1 0 0 / 0.05) 12px);"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'JetBrains Mono', monospace;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:oklch(1 0 0 / 0.65);background:oklch(0 0 0 / 0.3);padding:8px 16px;border-radius:8px;">foto {{ activeThumb }} de 5 · {{ car.make }} {{ car.model }}</span>
+        </div>
+        <div style="position:absolute;top:16px;left:16px;display:flex;gap:8px;">
+          <sc-if value="{{ car.verified }}">
+            <span style="font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;color:oklch(0.14 0.012 30);background:oklch(0.72 0.17 55);padding:6px 12px 6px 9px;border-radius:100px;display:flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="oklch(0.14 0.012 30)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></svg>Verificado</span>
+          </sc-if>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px;">
+        <sc-for list="{{ thumbs }}" as="th" hint-placeholder-count="5">
+          <button onClick="{{ th.select }}" style="height:70px;border-radius:12px;border:2px solid {{ th.active ? 'oklch(0.72 0.17 55)' : 'transparent' }};background:linear-gradient(135deg,{{ car.g1 }},{{ car.g2 }});cursor:pointer;padding:0;opacity:{{ th.active ? 1 : 0.55 }};"></button>
+        </sc-for>
+      </div>
+
+      <!-- TITLE + SPECS -->
+      <div style="margin-top:36px;display:flex;align-items:flex-start;justify-content:space-between;gap:20px;">
+        <div>
+          <h1 style="font-family:'Instrument Serif', serif;font-weight:400;font-size:40px;margin:0 0 8px;">{{ car.make }} {{ car.model }}</h1>
+          <p style="font-size:15px;color:oklch(0.68 0.015 30);margin:0;">{{ car.year }} · {{ car.mileageFmt }} mi · {{ car.city }}</p>
+        </div>
+        <p style="font-family:'Instrument Serif', serif;font-style:italic;font-size:38px;color:oklch(0.72 0.17 55);margin:0;white-space:nowrap;">{{ car.priceFmt }}</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px;">
+        <div style="padding:18px;border-radius:16px;background:oklch(0.21 0.016 30 / 0.5);border:1px solid oklch(1 0 0 / 0.08);">
+          <p style="margin:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:oklch(0.58 0.015 30);">Transmisión</p>
+          <p style="margin:6px 0 0;font-weight:700;font-size:15px;">{{ car.transmission }}</p>
+        </div>
+        <div style="padding:18px;border-radius:16px;background:oklch(0.21 0.016 30 / 0.5);border:1px solid oklch(1 0 0 / 0.08);">
+          <p style="margin:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:oklch(0.58 0.015 30);">Combustible</p>
+          <p style="margin:6px 0 0;font-weight:700;font-size:15px;">{{ car.fuel }}</p>
+        </div>
+        <div style="padding:18px;border-radius:16px;background:oklch(0.21 0.016 30 / 0.5);border:1px solid oklch(1 0 0 / 0.08);">
+          <p style="margin:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:oklch(0.58 0.015 30);">Color</p>
+          <p style="margin:6px 0 0;font-weight:700;font-size:15px;">{{ car.color }}</p>
+        </div>
+        <div style="padding:18px;border-radius:16px;background:oklch(0.21 0.016 30 / 0.5);border:1px solid oklch(1 0 0 / 0.08);">
+          <p style="margin:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:oklch(0.58 0.015 30);">Puertas</p>
+          <p style="margin:6px 0 0;font-weight:700;font-size:15px;">{{ car.doors }}</p>
+        </div>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div style="margin-top:40px;">
+        <h2 style="font-family:'Instrument Serif', serif;font-weight:400;font-size:26px;margin:0 0 14px;">Descripción</h2>
+        <p style="font-size:15px;line-height:1.7;color:oklch(0.75 0.015 30);margin:0;">{{ car.make }} {{ car.model }} {{ car.year }} en excelente estado, con {{ car.mileageFmt }} millas recorridas. Vehículo {{ car.sellerTypeLabel }}, listo para revisión física y prueba de manejo en {{ car.city }}. Historial de mantenimiento disponible bajo solicitud.</p>
+      </div>
+
+      <!-- FINANCING CALCULATOR -->
+      <div id="financiamiento" style="margin-top:44px;padding:30px;border-radius:24px;background:oklch(0.21 0.016 30 / 0.5);border:1px solid oklch(1 0 0 / 0.08);">
+        <h2 style="font-family:'Instrument Serif', serif;font-weight:400;font-size:26px;margin:0 0 22px;">Calculadora de financiamiento</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:13.5px;color:oklch(0.68 0.015 30);font-weight:600;">Enganche</span>
+                <span style="font-size:13.5px;font-weight:700;">{{ downFmt }} ({{ downPct }}%)</span>
+              </div>
+              <input type="range" min="0" max="80" step="5" value="{{ downPercent }}" onChange="{{ setDown }}" style="width:100%;" />
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:13.5px;color:oklch(0.68 0.015 30);font-weight:600;">Plazo</span>
+                <span style="font-size:13.5px;font-weight:700;">{{ term }} meses</span>
+              </div>
+              <select onChange="{{ setTerm }}" value="{{ term }}" style="width:100%;background:oklch(0.16 0.014 30);border:1px solid oklch(1 0 0 / 0.12);color:oklch(0.95 0.008 30);font-family:'Manrope',sans-serif;font-size:14px;padding:10px 12px;border-radius:10px;">
+                <option value="24">24</option>
+                <option value="36">36</option>
+                <option value="48">48</option>
+                <option value="60">60</option>
+                <option value="72">72</option>
+              </select>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:13.5px;color:oklch(0.68 0.015 30);font-weight:600;">Tasa anual estimada</span>
+                <span style="font-size:13.5px;font-weight:700;">{{ rate }}%</span>
+              </div>
+              <input type="range" min="6" max="18" step="0.5" value="{{ rate }}" onChange="{{ setRate }}" style="width:100%;" />
+            </div>
+          </div>
+          <div style="background:linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55));border-radius:18px;padding:26px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+            <p style="margin:0;font-size:13px;font-weight:700;color:oklch(0.2 0.02 30 / 0.8);text-transform:uppercase;letter-spacing:.06em;">Mensualidad estimada</p>
+            <p style="margin:10px 0 0;font-family:'Instrument Serif', serif;font-size:48px;color:oklch(0.14 0.012 30);">{{ monthlyFmt }}</p>
+            <p style="margin:8px 0 0;font-size:12.5px;color:oklch(0.2 0.02 30 / 0.75);">Financiando {{ financedFmt }} a {{ term }} meses</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIMILAR -->
+      <div style="margin-top:56px;">
+        <h2 style="font-family:'Instrument Serif', serif;font-weight:400;font-size:26px;margin:0 0 22px;">Vehículos similares</h2>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
+          <sc-for list="{{ similar }}" as="s" hint-placeholder-count="4">
+            <dc-import name="CarCard" car="{{ s }}" hint-size="100%,400"></dc-import>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <!-- SELLER / CONTACT SIDEBAR -->
+    <aside style="position:sticky;top:94px;display:flex;flex-direction:column;gap:18px;">
+      <div style="padding:26px;border-radius:20px;background:oklch(0.21 0.016 30 / 0.55);border:1px solid oklch(1 0 0 / 0.08);backdrop-filter:blur(20px);">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55));display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif', serif;font-size:22px;color:oklch(0.14 0.012 30);">{{ car.sellerInitial }}</div>
+          <div>
+            <p style="margin:0;font-weight:700;font-size:15px;">{{ car.seller }}</p>
+            <p style="margin:2px 0 0;font-size:12.5px;color:oklch(0.62 0.015 30);">{{ car.sellerTypeLabel }} · ★ {{ car.rating }}</p>
+          </div>
+        </div>
+        <sc-if value="{{ car.verified }}">
+          <p style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:oklch(0.72 0.17 55);margin:0 0 18px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="oklch(0.72 0.17 55)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z"/><path d="M9 12l2 2 4-4"/></svg>Identidad verificada</p>
+        </sc-if>
+        <button onClick="{{ revealPhone }}" style="width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55));color:oklch(0.14 0.012 30);font-weight:800;font-size:14.5px;cursor:pointer;margin-bottom:10px;">{{ phoneLabel }}</button>
+        <button style="width:100%;padding:14px;border-radius:12px;border:1px solid oklch(1 0 0 / 0.15);background:transparent;color:oklch(0.95 0.008 30);font-weight:700;font-size:14.5px;cursor:pointer;">Enviar mensaje</button>
+      </div>
+
+      <div style="padding:26px;border-radius:20px;background:oklch(0.21 0.016 30 / 0.55);border:1px solid oklch(1 0 0 / 0.08);">
+        <h3 style="margin:0 0 16px;font-family:'Instrument Serif', serif;font-size:18px;">Agenda una visita</h3>
+        <input type="text" placeholder="Tu nombre" style="width:100%;background:oklch(0.16 0.014 30);border:1px solid oklch(1 0 0 / 0.12);color:oklch(0.95 0.008 30);font-family:'Manrope',sans-serif;font-size:13.5px;padding:11px 13px;border-radius:10px;margin-bottom:10px;" />
+        <input type="text" placeholder="Teléfono" style="width:100%;background:oklch(0.16 0.014 30);border:1px solid oklch(1 0 0 / 0.12);color:oklch(0.95 0.008 30);font-family:'Manrope',sans-serif;font-size:13.5px;padding:11px 13px;border-radius:10px;margin-bottom:10px;" />
+        <textarea placeholder="Mensaje (opcional)" rows="3" style="width:100%;background:oklch(0.16 0.014 30);border:1px solid oklch(1 0 0 / 0.12);color:oklch(0.95 0.008 30);font-family:'Manrope',sans-serif;font-size:13.5px;padding:11px 13px;border-radius:10px;margin-bottom:14px;resize:vertical;"></textarea>
+        <button style="width:100%;padding:13px;border-radius:12px;border:1px solid oklch(0.72 0.17 55 / 0.5);background:oklch(0.72 0.17 55 / 0.12);color:oklch(0.85 0.13 55);font-weight:700;font-size:14px;cursor:pointer;">Solicitar visita</button>
+      </div>
+    </aside>
+  </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    car: null,
+    similar: [],
+    activeThumb: 1,
+    down: 20,
+    term: 48,
+    rate: 12,
+    phoneRevealed: false,
+    loaded: false,
+    notFound: false,
+  };
+
+  componentDidMount() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    import('./cars-data.js').then((mod) => {
+      mod.fetchCars().then((all) => {
+        const base = id ? mod.getCarById(all, id) : all[0] || null;
+        if (!base) {
+          this.setState({ loaded: true, notFound: true });
+          return;
+        }
+        const car = {
+          ...base,
+          priceFmt: mod.formatPrice(base.price),
+          mileageFmt: Number(base.mileage || 0).toLocaleString('en-US'),
+          sellerTypeLabel: base.sellerType === 'Concesionario' ? 'de concesionario' : 'de particular',
+          sellerInitial: (base.seller || '?').trim().charAt(0),
+        };
+        const similar = mod.similarCars(all, base, 4).map((c) => ({
+          ...c,
+          priceFmt: mod.formatPrice(c.price),
+          mileageFmt: Number(c.mileage || 0).toLocaleString('en-US'),
+          href: 'VehicleDetail.dc.html?id=' + c.id,
+        }));
+        this.setState({ car, similar, loaded: true, notFound: false });
+      });
+    });
+  }
+
+  renderVals() {
+    const car = this.state.car || {
+      make: '', model: '', year: '', mileageFmt: '', city: '', priceFmt: '', transmission: '', fuel: '', color: '', doors: '',
+      g1: 'oklch(0.4 0.05 30)', g2: 'oklch(0.3 0.05 30)', verified: false, seller: '', sellerTypeLabel: '', sellerInitial: '', rating: '',
+    };
+    const price = this.state.car ? this.state.car.price : 0;
+    const down = (price * this.state.down) / 100;
+    const financed = price - down;
+    const monthlyRate = this.state.rate / 100 / 12;
+    const n = this.state.term;
+    const monthly = monthlyRate > 0 ? (financed * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -n)) : financed / n;
+
+    return {
+      car,
+      activeThumb: this.state.activeThumb,
+      thumbs: [1, 2, 3, 4, 5].map((i) => ({ active: i === this.state.activeThumb, select: () => this.setState({ activeThumb: i }) })),
+      downPercent: this.state.down,
+      downPct: this.state.down,
+      downFmt: '$' + Math.round(down).toLocaleString('en-US'),
+      setDown: (e) => this.setState({ down: Number(e.target.value) }),
+      term: this.state.term,
+      setTerm: (e) => this.setState({ term: Number(e.target.value) }),
+      rate: this.state.rate,
+      setRate: (e) => this.setState({ rate: Number(e.target.value) }),
+      monthlyFmt: '$' + Math.round(monthly || 0).toLocaleString('en-US'),
+      financedFmt: '$' + Math.round(financed || 0).toLocaleString('en-US'),
+      similar: this.state.similar,
+      phoneLabel: this.state.phoneRevealed ? (car.sellerPhone || 'No disponible') : 'Mostrar teléfono',
+      revealPhone: () => this.setState({ phoneRevealed: true }),
+      loaded: this.state.loaded,
+      notFound: this.state.notFound,
+      hasCar: !!this.state.car,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

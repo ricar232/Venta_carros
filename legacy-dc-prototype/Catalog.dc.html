@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: oklch(0.16 0.014 30); }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:oklch(0.72 0.17 55); cursor:pointer; margin-top:-6px; }
+    input[type=range] { -webkit-appearance:none; accent-color: oklch(0.72 0.17 55); }
+  </style>
+</helmet>
+<x-import component-from-global-scope="CarCard" name="CarCard" hint-size="100%,420" style="display:none"></x-import>
+
+<div data-screen-label="Catálogo" style="font-family:'Manrope',sans-serif;background:oklch(0.16 0.014 30);color:oklch(0.97 0.008 30);min-height:100vh;">
+
+  <nav style="position:sticky;top:0;z-index:50;background:oklch(0.14 0.012 30 / 0.85);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid oklch(1 0 0 / 0.08);">
+    <div style="max-width:1400px;margin:0 auto;padding:0 32px;height:74px;display:flex;align-items:center;justify-content:space-between;">
+      <a href="Landing.dc.html" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:oklch(0.97 0.008 30);">
+        <span style="width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55));display:inline-block;transform:rotate(-8deg);box-shadow:0 4px 14px -4px oklch(0.63 0.20 25 / 0.7);flex-shrink:0;"></span>
+        <span style="font-family:'Instrument Serif', serif;font-style:italic;font-size:26px;line-height:1;">VELTRA</span>
+        <span style="font-family:'Manrope',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:oklch(0.68 0.015 30);">marketplace</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:32px;">
+        <a href="Catalog.dc.html" style="text-decoration:none;color:oklch(0.72 0.17 55);font-size:14.5px;font-weight:700;">Explorar</a>
+        <a href="Landing.dc.html#como-funciona" style="text-decoration:none;color:oklch(0.9 0.01 30);font-size:14.5px;font-weight:600;">Cómo funciona</a>
+        <a href="Register.dc.html" style="text-decoration:none;color:oklch(0.9 0.01 30);font-size:14.5px;font-weight:600;">Vender</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <a href="Login.dc.html" style="text-decoration:none;color:oklch(0.9 0.01 30);font-size:14.5px;font-weight:600;">Iniciar sesión</a>
+        <a href="Register.dc.html" style="text-decoration:none;font-weight:700;font-size:14px;color:oklch(0.16 0.014 30);background:linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55));padding:11px 20px;border-radius:100px;transition:transform .25s ease, box-shadow .25s ease;" style-hover="transform:translateY(-2px) scale(1.03);box-shadow:0 12px 30px -6px oklch(0.63 0.20 25 / 0.8);">Publicar anuncio</a>
+      </div>
+    </div>
+  </nav>
+
+  <header style="max-width:1400px;margin:0 auto;padding:44px 32px 24px;">
+    <h1 style="font-family:'Instrument Serif', serif;font-weight:400;font-size:42px;margin:0 0 8px;">Catálogo de autos</h1>
+    <p style="font-size:15.5px;color:oklch(0.68 0.015 30);margin:0;">{{ resultsCount }} anuncios encontrados</p>
+  </header>
+
+  <div style="max-width:1400px;margin:0 auto;padding:0 32px 100px;display:grid;grid-template-columns:280px 1fr;gap:32px;align-items:flex-start;">
+
+    <!-- FILTER SIDEBAR -->
+    <aside style="position:sticky;top:94px;background:oklch(0.21 0.016 30 / 0.55);border:1px solid oklch(1 0 0 / 0.08);border-radius:20px;padding:26px;backdrop-filter:blur(20px);display:flex;flex-direction:column;gap:26px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h3 style="margin:0;font-family:'Instrument Serif', serif;font-size:20px;">Filtros</h3>
+        <button onClick="{{ clearFilters }}" style="background:none;border:none;color:oklch(0.72 0.17 55);font-size:13px;font-weight:700;cursor:pointer;padding:0;">Limpiar</button>
+      </div>
+
+      <div>
+        <p style="font-size:13px;font-weight:700;margin:0 0 12px;text-transform:uppercase;letter-spacing:.04em;color:oklch(0.68 0.015 30);">Tipo</p>
+        <div style="display:flex;flex-direction:column;gap:9px;">
+          <sc-for list="{{ typeOptions }}" as="opt" hint-placeholder-count="6">
+            <label style="display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer;color:{{ opt.active ? 'oklch(0.97 0.008 30)' : 'oklch(0.72 0.015 30)' }};">
+              <input type="checkbox" checked="{{ opt.active }}" onChange="{{ opt.toggle }}" style="accent-color:oklch(0.72 0.17 55);width:16px;height:16px;" />
+              {{ opt.label }} <span style="color:oklch(0.5 0.015 30);font-size:12.5px;">({{ opt.count }})</span>
+            </label>
+          </sc-for>
+        </div>
+      </div>
+
+      <div>
+        <p style="font-size:13px;font-weight:700;margin:0 0 12px;text-transform:uppercase;letter-spacing:.04em;color:oklch(0.68 0.015 30);">Marca</p>
+        <select onChange="{{ setMake }}" value="{{ filters.make }}" style="width:100%;background:oklch(0.16 0.014 30);border:1px solid oklch(1 0 0 / 0.12);color:oklch(0.95 0.008 30);font-family:'Manrope',sans-serif;font-size:14px;padding:10px 12px;border-radius:10px;">
+          <option value="">Todas las marcas</option>
+          <sc-for list="{{ makeOptions }}" as="m" hint-placeholder-count="10">
+            <option value="{{ m }}">{{ m }}</option>
+          </sc-for>
+        </select>
+      </div>
+
+      <div>
+        <p style="font-size:13px;font-weight:700;margin:0 0 12px;text-transform:uppercase;letter-spacing:.04em;color:oklch(0.68 0.015 30);">Precio máximo</p>
+        <input type="range" min="15000" max="95000" step="1000" value="{{ filters.maxPrice }}" onChange="{{ setMaxPrice }}" style="width:100%;" />
+        <p style="font-size:13.5px;color:oklch(0.85 0.01 30);margin:8px 0 0;font-weight:700;">Hasta {{ maxPriceFmt }}</p>
+      </div>
+
+      <div>
+        <p style="font-size:13px;font-weight:700;margin:0 0 12px;text-transform:uppercase;letter-spacing:.04em;color:oklch(0.68 0.015 30);">Año mínimo</p>
+        <input type="range" min="2018" max="2024" step="1" value="{{ filters.minYear }}" onChange="{{ setMinYear }}" style="width:100%;" />
+        <p style="font-size:13.5px;color:oklch(0.85 0.01 30);margin:8px 0 0;font-weight:700;">{{ filters.minYear }} en adelante</p>
+      </div>
+
+      <div>
+        <p style="font-size:13px;font-weight:700;margin:0 0 12px;text-transform:uppercase;letter-spacing:.04em;color:oklch(0.68 0.015 30);">Transmisión</p>
+        <div style="display:flex;gap:8px;">
+          <sc-for list="{{ transmissionOptions }}" as="t" hint-placeholder-count="2">
+            <button onClick="{{ t.toggle }}" style="flex:1;padding:9px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid {{ t.active ? 'oklch(0.72 0.17 55)' : 'oklch(1 0 0 / 0.12)' }};background:{{ t.active ? 'oklch(0.72 0.17 55 / 0.18)' : 'transparent' }};color:{{ t.active ? 'oklch(0.85 0.13 55)' : 'oklch(0.75 0.015 30)' }};">{{ t.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <label style="display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer;padding-top:6px;border-top:1px solid oklch(1 0 0 / 0.08);">
+        <input type="checkbox" checked="{{ filters.onlyVerified }}" onChange="{{ toggleVerified }}" style="accent-color:oklch(0.72 0.17 55);width:16px;height:16px;" />
+        Solo vendedores verificados
+      </label>
+    </aside>
+
+    <!-- RESULTS -->
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <sc-if value="{{ hasActiveFilters }}">
+            <button onClick="{{ clearFilters }}" style="background:oklch(0.72 0.17 55 / 0.15);border:1px solid oklch(0.72 0.17 55 / 0.4);color:oklch(0.85 0.13 55);font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:100px;cursor:pointer;">✕ Limpiar filtros</button>
+          </sc-if>
+        </div>
+        <select onChange="{{ setSort }}" value="{{ sort }}" style="background:oklch(0.21 0.016 30);border:1px solid oklch(1 0 0 / 0.12);color:oklch(0.9 0.01 30);font-family:'Manrope',sans-serif;font-size:13.5px;padding:9px 14px;border-radius:10px;">
+          <option value="recent">Más recientes</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+          <option value="year-desc">Año: más nuevo</option>
+          <option value="mileage-asc">Menor kilometraje</option>
+        </select>
+      </div>
+
+      <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+          <sc-for list="{{ visibleCars }}" as="car" hint-placeholder-count="9">
+            <dc-import name="CarCard" car="{{ car }}" hint-size="100%,420"></dc-import>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ noResults }}">
+        <div style="text-align:center;padding:100px 20px;border:1px dashed oklch(1 0 0 / 0.15);border-radius:20px;">
+          <p style="font-family:'Instrument Serif', serif;font-size:26px;margin:0 0 8px;">Sin resultados</p>
+          <p style="font-size:14.5px;color:oklch(0.65 0.015 30);margin:0 0 20px;">Ajusta los filtros para ver más anuncios.</p>
+          <button onClick="{{ clearFilters }}" style="background:linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55));border:none;color:oklch(0.14 0.012 30);font-weight:700;font-size:14px;padding:12px 24px;border-radius:100px;cursor:pointer;">Limpiar filtros</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ noCarsAtAll }}">
+        <div style="text-align:center;padding:100px 20px;border:1px dashed oklch(1 0 0 / 0.15);border-radius:20px;">
+          <p style="font-family:'Instrument Serif', serif;font-size:26px;margin:0 0 8px;">Aún no hay anuncios</p>
+          <p style="font-size:14.5px;color:oklch(0.65 0.015 30);margin:0;">Conecta tu backend de Node.js (GET /api/cars) para que el catálogo se llene con tus datos.</p>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    cars: [],
+    carsLoaded: false,
+    filters: { types: [], make: '', maxPrice: 95000, minYear: 2018, transmissions: [], onlyVerified: false },
+    sort: 'recent',
+  };
+
+  componentDidMount() {
+    const params = new URLSearchParams(window.location.search);
+    const typeParam = params.get('type');
+    import('./cars-data.js').then((mod) => {
+      mod.fetchCars().then((raw) => {
+        const withFmt = raw.map((c) => ({
+          ...c,
+          priceFmt: mod.formatPrice(c.price),
+          mileageFmt: Number(c.mileage || 0).toLocaleString('en-US'),
+          href: 'VehicleDetail.dc.html?id=' + c.id,
+        }));
+        this.setState((s) => ({
+          cars: withFmt,
+          carsLoaded: true,
+          filters: typeParam ? { ...s.filters, types: [typeParam] } : s.filters,
+        }));
+      });
+    });
+  }
+
+  allTypes() {
+    return ['SUV', 'Sedán', 'Pickup', 'Deportivo', 'Eléctrico'];
+  }
+
+  toggleType(type) {
+    this.setState((s) => {
+      const has = s.filters.types.includes(type);
+      const types = has ? s.filters.types.filter((t) => t !== type) : [...s.filters.types, type];
+      return { filters: { ...s.filters, types } };
+    });
+  }
+
+  toggleTransmission(tr) {
+    this.setState((s) => {
+      const has = s.filters.transmissions.includes(tr);
+      const transmissions = has ? s.filters.transmissions.filter((t) => t !== tr) : [...s.filters.transmissions, tr];
+      return { filters: { ...s.filters, transmissions } };
+    });
+  }
+
+  filteredCars() {
+    const f = this.state.filters;
+    let list = this.state.cars.filter((c) => {
+      if (f.types.length && !f.types.includes(c.type)) return false;
+      if (f.make && c.make !== f.make) return false;
+      if (c.price > f.maxPrice) return false;
+      if (c.year < f.minYear) return false;
+      if (f.transmissions.length && !f.transmissions.includes(c.transmission)) return false;
+      if (f.onlyVerified && !c.verified) return false;
+      return true;
+    });
+    const sort = this.state.sort;
+    if (sort === 'price-asc') list = [...list].sort((a, b) => a.price - b.price);
+    else if (sort === 'price-desc') list = [...list].sort((a, b) => b.price - a.price);
+    else if (sort === 'year-desc') list = [...list].sort((a, b) => b.year - a.year);
+    else if (sort === 'mileage-asc') list = [...list].sort((a, b) => a.mileage - b.mileage);
+    return list;
+  }
+
+  renderVals() {
+    const cars = this.state.cars;
+    const f = this.state.filters;
+    const filtered = this.filteredCars();
+    const makeOptions = [...new Set(cars.map((c) => c.make))].sort();
+
+    const loaded = this.state.carsLoaded;
+    return {
+      resultsCount: loaded ? filtered.length : '—',
+      filters: f,
+      visibleCars: filtered,
+      isLoading: !loaded,
+      noCarsAtAll: loaded && cars.length === 0,
+      hasResults: filtered.length > 0,
+      noResults: loaded && cars.length > 0 && filtered.length === 0,
+      hasActiveFilters: f.types.length > 0 || !!f.make || f.maxPrice < 95000 || f.minYear > 2018 || f.transmissions.length > 0 || f.onlyVerified,
+      sort: this.state.sort,
+      setSort: (e) => this.setState({ sort: e.target.value }),
+      setMake: (e) => this.setState((s) => ({ filters: { ...s.filters, make: e.target.value } })),
+      setMaxPrice: (e) => this.setState((s) => ({ filters: { ...s.filters, maxPrice: Number(e.target.value) } })),
+      setMinYear: (e) => this.setState((s) => ({ filters: { ...s.filters, minYear: Number(e.target.value) } })),
+      toggleVerified: () => this.setState((s) => ({ filters: { ...s.filters, onlyVerified: !s.filters.onlyVerified } })),
+      clearFilters: () => this.setState({ filters: { types: [], make: '', maxPrice: 95000, minYear: 2018, transmissions: [], onlyVerified: false } }),
+      maxPriceFmt: '$' + f.maxPrice.toLocaleString('en-US'),
+      makeOptions,
+      typeOptions: this.allTypes().map((t) => ({
+        label: t,
+        count: cars.filter((c) => c.type === t).length,
+        active: f.types.includes(t),
+        toggle: () => this.toggleType(t),
+      })),
+      transmissionOptions: ['Automática', 'Manual'].map((t) => ({
+        label: t,
+        active: f.transmissions.includes(t),
+        toggle: () => this.toggleTransmission(t),
+      })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
