@@ -6,7 +6,7 @@ import { fetchCars, formatPrice } from '../lib/carsApi.js';
 
 const ALL_TYPES = ['SUV', 'Sedán', 'Pickup', 'Deportivo', 'Eléctrico'];
 const TRANSMISSIONS = ['Automática', 'Manual'];
-const emptyFilters = { types: [], make: '', maxPrice: 95000, minYear: 2018, transmissions: [], onlyVerified: false };
+const emptyFilters = { types: [], make: '', maxPrice: 150000, minYear: 1990, transmissions: [], onlyVerified: false };
 
 export default function Catalog() {
   const [searchParams] = useSearchParams();
@@ -64,7 +64,7 @@ export default function Catalog() {
 
   const makeOptions = useMemo(() => [...new Set(cars.map((c) => c.make))].sort(), [cars]);
   const hasActiveFilters =
-    filters.types.length > 0 || !!filters.make || filters.maxPrice < 95000 || filters.minYear > 2018 || filters.transmissions.length > 0 || filters.onlyVerified;
+    filters.types.length > 0 || !!filters.make || filters.maxPrice < 150000 || filters.minYear > 1990 || filters.transmissions.length > 0 || filters.onlyVerified;
   const hasResults = filteredCars.length > 0;
   const noResults = carsLoaded && cars.length > 0 && filteredCars.length === 0;
   const noCarsAtAll = carsLoaded && cars.length === 0;
@@ -182,12 +182,12 @@ export default function Catalog() {
             <p style={filterLabelStyle}>Precio máximo</p>
             <input
               type="range"
-              min={15000}
-              max={95000}
+              min={0}
+              max={150000}
               step={1000}
               value={filters.maxPrice}
               onChange={(e) => setFilters((f) => ({ ...f, maxPrice: Number(e.target.value) }))}
-              style={rangeTrackStyle(filters.maxPrice, 15000, 95000)}
+              style={rangeTrackStyle(filters.maxPrice, 0, 150000)}
             />
             <p style={{ fontSize: 13.5, color: 'oklch(0.85 0.01 30)', margin: '8px 0 0', fontWeight: 700 }}>Hasta ${filters.maxPrice.toLocaleString('en-US')}</p>
           </div>
@@ -196,12 +196,12 @@ export default function Catalog() {
             <p style={filterLabelStyle}>Año mínimo</p>
             <input
               type="range"
-              min={2018}
-              max={2024}
+              min={1990}
+              max={2027}
               step={1}
               value={filters.minYear}
               onChange={(e) => setFilters((f) => ({ ...f, minYear: Number(e.target.value) }))}
-              style={rangeTrackStyle(filters.minYear, 2018, 2024)}
+              style={rangeTrackStyle(filters.minYear, 1990, 2027)}
             />
             <p style={{ fontSize: 13.5, color: 'oklch(0.85 0.01 30)', margin: '8px 0 0', fontWeight: 700 }}>{filters.minYear} en adelante</p>
           </div>
