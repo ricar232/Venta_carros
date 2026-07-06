@@ -290,11 +290,13 @@ html, body {
   }
 }
 
-/* Navbar / Landing header: hamburger menu below 900px. */
+/* Navbar / Landing header: hamburger menu below 1200px. Raised from the
+   general 900px layout breakpoint because the logged-in nav (account
+   dropdown + CTA + up to 4 links) needs more room before it gets tight. */
 .veltra-nav-burger {
   display: none;
 }
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .veltra-nav-desktop {
     display: none !important;
   }

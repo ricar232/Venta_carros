@@ -60,6 +60,8 @@ export default function Landing() {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const accountMenuRef = useRef(null);
   const [session, setSession] = useState(getSession());
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
@@ -133,8 +135,17 @@ export default function Landing() {
     clearSession();
     setSession(getSession());
     setMenuOpen(false);
+    setAccountMenuOpen(false);
     navigate('/');
   }
+
+  useEffect(() => {
+    function onClickOutside(e) {
+      if (accountMenuRef.current && !accountMenuRef.current.contains(e.target)) setAccountMenuOpen(false);
+    }
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
+  }, []);
 
   const typeCount = (t) => cars.filter((c) => c.type === t).length;
   const heroCar = cars.length ? cars[0] : null;
@@ -183,24 +194,44 @@ export default function Landing() {
           </div>
           <div className="veltra-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             {session.token ? (
-              <>
-                {session.user?.role === 'admin' && (
-                  <Link to="/admin" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Admin</Link>
-                )}
-                <Link to="/mis-compras" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Mis compras</Link>
-                <Link to="/mis-anuncios" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Mis anuncios</Link>
-                <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                  Hola, {(session.user?.name || '').split(' ')[0]}
-                  {session.user?.tier && <TierChip tier={session.user.tier} />}
-                </span>
+              <div ref={accountMenuRef} style={{ position: 'relative' }}>
                 <button
                   type="button"
-                  onClick={handleLogout}
-                  style={{ background: 'none', border: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600, cursor: 'pointer', padding: 0, fontFamily: "'Manrope', sans-serif" }}
+                  onClick={() => setAccountMenuOpen((v) => !v)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 8,
+                    background: 'none', border: '1px solid oklch(1 0 0 / 0.15)', borderRadius: 100,
+                    padding: '9px 14px', cursor: 'pointer', color: 'oklch(0.95 0.008 30)', fontSize: 13.5, fontFamily: "'Manrope', sans-serif",
+                  }}
                 >
-                  Cerrar sesión
+                  Hola, {(session.user?.name || '').split(' ')[0]}
+                  {session.user?.tier && <TierChip tier={session.user.tier} />}
+                  <span style={{ fontSize: 10, opacity: 0.7 }}>{accountMenuOpen ? '▴' : '▾'}</span>
                 </button>
-              </>
+                {accountMenuOpen && (
+                  <div
+                    style={{
+                      position: 'absolute', top: 'calc(100% + 10px)', right: 0, minWidth: 190, zIndex: 60,
+                      background: 'oklch(0.14 0.012 30)', border: '1px solid oklch(1 0 0 / 0.1)', borderRadius: 14,
+                      padding: 8, boxShadow: '0 20px 40px -10px oklch(0 0 0 / 0.6)', display: 'flex', flexDirection: 'column', gap: 2,
+                    }}
+                  >
+                    {session.user?.role === 'admin' && (
+                      <Link to="/admin" onClick={() => setAccountMenuOpen(false)} style={dropdownLinkStyle}>Admin</Link>
+                    )}
+                    <Link to="/mis-compras" onClick={() => setAccountMenuOpen(false)} style={dropdownLinkStyle}>Mis compras</Link>
+                    <Link to="/mis-anuncios" onClick={() => setAccountMenuOpen(false)} style={dropdownLinkStyle}>Mis anuncios</Link>
+                    <div style={{ height: 1, background: 'oklch(1 0 0 / 0.08)', margin: '4px 0' }} />
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      style={{ ...dropdownLinkStyle, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%' }}
+                    >
+                      Cerrar sesión
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <Link to="/login" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600, padding: '10px 4px' }}>Iniciar sesión</Link>
             )}
@@ -670,3 +701,5 @@ const heroSelectStyle = {
 };
 
 const footerLinkStyle = { display: 'block', textDecoration: 'none', color: 'oklch(0.65 0.015 30)', fontSize: 13.5, marginBottom: 12 };
+
+const dropdownLinkStyle = { textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14, fontWeight: 600, padding: '10px 12px', borderRadius: 8, fontFamily: "'Manrope', sans-serif", display: 'block' };
