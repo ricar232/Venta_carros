@@ -7,11 +7,27 @@ export function requireAuth(req, res, next) {
   if (!token) return res.status(401).json({ message: 'Sesión requerida.' });
 
   try {
-    req.userId = jwt.verify(token, process.env.JWT_SECRET).sub;
+    req.userId = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] }).sub;
     next();
   } catch {
     res.status(401).json({ message: 'Sesión inválida o expirada.' });
   }
+}
+
+// A diferencia de requireAuth, nunca rechaza la request — solo completa
+// req.userId si viene un token válido. Sirve para endpoints públicos que
+// quieren dar más datos a quien esté logueado sin exigirlo.
+export function optionalAuth(req, res, next) {
+  const header = req.headers.authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null;
+  if (token) {
+    try {
+      req.userId = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] }).sub;
+    } catch {
+      // token inválido/expirado — seguimos como visitante anónimo
+    }
+  }
+  next();
 }
 
 export function requireApproved(req, res, next) {

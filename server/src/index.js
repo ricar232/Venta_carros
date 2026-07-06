@@ -1,7 +1,9 @@
 import path from 'node:path';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import express from 'express';
+import helmet from 'helmet';
 import 'dotenv/config';
 import authRoutes from './routes/auth.js';
 import carsRoutes from './routes/cars.js';
@@ -13,10 +15,16 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 if (!process.env.JWT_SECRET) {
-  console.warn('[veltra] JWT_SECRET no está definido — usando un valor de desarrollo inseguro. Define JWT_SECRET en server/.env para producción.');
-  process.env.JWT_SECRET = 'dev-only-insecure-secret';
+  // Nunca un valor fijo: cualquiera que lea el código fuente podría firmar
+  // tokens válidos para cualquier usuario. Un secreto aleatorio por arranque
+  // sigue sin requerir configuración, pero invalida las sesiones activas
+  // cada vez que el proceso se reinicia — por eso conviene fijar JWT_SECRET
+  // en server/.env para producción.
+  console.warn('[veltra] JWT_SECRET no está definido — generando uno aleatorio para este arranque. Las sesiones no sobrevivirán un reinicio. Define JWT_SECRET en server/.env para producción.');
+  process.env.JWT_SECRET = crypto.randomBytes(48).toString('hex');
 }
 
+app.use(helmet());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/cars', carsRoutes);

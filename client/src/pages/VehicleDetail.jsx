@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar.jsx';
 import CarCard from '../components/CarCard.jsx';
 import { TierFrame, TierChip } from '../components/TierBadge.jsx';
 import { fetchCars, formatPrice, getCarById, similarCars } from '../lib/carsApi.js';
+import { getSession } from '../lib/auth.js';
 
 export default function VehicleDetail() {
   const { id } = useParams();
@@ -67,7 +68,10 @@ export default function VehicleDetail() {
   const displayCar = car || placeholder;
   const hasPhotos = displayCar.photos?.length > 0;
   const mainPhoto = hasPhotos ? displayCar.photos[Math.min(activeThumb, displayCar.photos.length - 1)] : null;
-  const phoneLabel = phoneRevealed ? displayCar.sellerPhone || 'No disponible' : 'Mostrar teléfono';
+  const isLoggedIn = !!getSession().token;
+  const phoneLabel = phoneRevealed
+    ? displayCar.sellerPhone || (isLoggedIn ? 'No disponible' : 'Inicia sesión para ver el teléfono')
+    : 'Mostrar teléfono';
 
   return (
     <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>

@@ -3,7 +3,7 @@ import path from 'node:path';
 import { Router } from 'express';
 import multer from 'multer';
 import { db } from '../db.js';
-import { requireAuth, requireApproved } from '../middleware/auth.js';
+import { requireAuth, requireApproved, optionalAuth } from '../middleware/auth.js';
 import { uploadCarPhotos, carPhotosDir } from '../middleware/upload.js';
 import { sellerRatingStats } from '../tier.js';
 
@@ -34,7 +34,7 @@ const GRADIENT_PALETTE = [
   ['oklch(0.58 0.21 25)', 'oklch(0.45 0.15 30)'],
 ];
 
-function toApiShape(row) {
+function toApiShape(row, { includePhone = true } = {}) {
   return {
     id: String(row.id),
     make: row.make,
@@ -52,7 +52,7 @@ function toApiShape(row) {
     rating: row.rating,
     sellerType: row.seller_type,
     seller: row.seller,
-    sellerPhone: row.seller_phone,
+    sellerPhone: includePhone ? row.seller_phone : null,
     g1: row.g1,
     g2: row.g2,
     photos: JSON.parse(row.photos || '[]').map((f) => `/uploads/cars/${f}`),
@@ -75,9 +75,14 @@ function deleteCarRow(row) {
   db.prepare('DELETE FROM cars WHERE id = ?').run(row.id);
 }
 
-router.get('/', (req, res) => {
+router.get('/', optionalAuth, (req, res) => {
+  let viewerApproved = false;
+  if (req.userId) {
+    const viewer = db.prepare('SELECT status FROM users WHERE id = ?').get(req.userId);
+    viewerApproved = viewer?.status === 'approved';
+  }
   const rows = db.prepare('SELECT * FROM cars ORDER BY created_at DESC').all();
-  res.json(rows.map(toApiShape));
+  res.json(rows.map((row) => toApiShape(row, { includePhone: viewerApproved })));
 });
 
 router.post('/', requireAuth, requireApproved, handlePhotoUpload, (req, res) => {

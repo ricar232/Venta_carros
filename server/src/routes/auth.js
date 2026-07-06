@@ -1,12 +1,22 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import rateLimit from 'express-rate-limit';
 import { db } from '../db.js';
 import { requireAuth } from '../middleware/auth.js';
 import { sellerRatingStats } from '../tier.js';
 
 const router = Router();
 const SELLER_TYPES = new Set(['Particular', 'Concesionario']);
+
+// Frena fuerza bruta / credential stuffing contra login y registro.
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Demasiados intentos. Esperá unos minutos y volvé a intentar.' },
+});
 
 function issueToken(user) {
   return jwt.sign({ sub: user.id }, process.env.JWT_SECRET, { expiresIn: '30d' });
@@ -17,7 +27,7 @@ function userApiShape(row) {
   return { id: row.id, name: row.name, email: row.email, status: row.status, role: row.role, tier: stats.tier };
 }
 
-router.post('/register', async (req, res) => {
+router.post('/register', authLimiter, async (req, res) => {
   const { name, email, phone, password, sellerType } = req.body || {};
   if (!name || !email || !password) {
     return res.status(400).json({ message: 'Nombre, correo y contraseña son obligatorios.' });
@@ -51,7 +61,7 @@ router.post('/register', async (req, res) => {
   res.status(201).json({ user, token: issueToken(user) });
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', authLimiter, async (req, res) => {
   const { email, password } = req.body || {};
   if (!email || !password) {
     return res.status(400).json({ message: 'Correo y contraseña son obligatorios.' });
