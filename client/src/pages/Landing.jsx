@@ -52,6 +52,7 @@ const CATEGORIES = [
 
 export default function Landing() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const [cars, setCars] = useState([]);
@@ -159,13 +160,13 @@ export default function Landing() {
             <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 28, lineHeight: 1 }}>VELTRA</span>
             <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'oklch(0.68 0.015 30)' }}>marketplace</span>
           </Link>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 36 }}>
+          <div className="veltra-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 36 }}>
             <Link to="/catalogo" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Explorar</Link>
             <a href="#como-funciona" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Cómo funciona</a>
             <a href="#vender" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Vender</a>
             <a href="#financiamiento" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Financiamiento</a>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div className="veltra-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <Link to="/login" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600, padding: '10px 4px' }}>Iniciar sesión</Link>
             <Link
               to="/publicar"
@@ -185,7 +186,56 @@ export default function Landing() {
               Publicar anuncio
             </Link>
           </div>
+
+          <button
+            type="button"
+            className="veltra-nav-burger"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Abrir menú"
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 38,
+              height: 38,
+              background: 'none',
+              border: '1px solid oklch(1 0 0 / 0.15)',
+              borderRadius: 10,
+              color: 'oklch(0.95 0.008 30)',
+              fontSize: 18,
+              cursor: 'pointer',
+            }}
+          >
+            {menuOpen ? '✕' : '☰'}
+          </button>
         </div>
+
+        {menuOpen && (
+          <div className="veltra-nav-mobile-panel">
+            <Link to="/catalogo" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Explorar</Link>
+            <a href="#como-funciona" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Cómo funciona</a>
+            <a href="#vender" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Vender</a>
+            <a href="#financiamiento" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Financiamiento</a>
+            <Link to="/login" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Iniciar sesión</Link>
+            <Link
+              to="/publicar"
+              onClick={() => setMenuOpen(false)}
+              className="veltra-cta"
+              style={{
+                marginTop: 8,
+                textAlign: 'center',
+                textDecoration: 'none',
+                fontWeight: 700,
+                fontSize: 14,
+                color: 'oklch(0.16 0.014 30)',
+                background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+                padding: '12px 22px',
+                borderRadius: 100,
+              }}
+            >
+              Publicar anuncio
+            </Link>
+          </div>
+        )}
       </nav>
 
       <div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: 2, zIndex: 60, background: 'oklch(1 0 0 / 0.06)' }}>
@@ -248,7 +298,7 @@ export default function Landing() {
           }}
         />
 
-        <div style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 64, alignItems: 'center' }}>
+        <div className="veltra-hero-grid" style={{ position: 'relative', maxWidth: 1280, margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 64, alignItems: 'center' }}>
           <div>
             <span
               style={{
@@ -269,7 +319,7 @@ export default function Landing() {
             >
               ● {heroBadge}
             </span>
-            <h1 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 70, lineHeight: 1.02, margin: '0 0 24px', letterSpacing: '-.01em' }}>
+            <h1 className="veltra-hero-title" style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 70, lineHeight: 1.02, margin: '0 0 24px', letterSpacing: '-.01em' }}>
               Encuentra el auto{' '}
               <span style={{ position: 'relative', display: 'inline-block' }}>
                 <em style={{ fontStyle: 'italic', color: 'oklch(0.72 0.17 55)' }}>perfecto</em>
@@ -359,7 +409,7 @@ export default function Landing() {
       </section>
 
       {/* STATS */}
-      <section ref={statsRef} style={{ ...statsStyle, maxWidth: 1280, margin: '0 auto', padding: '90px 32px', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 24 }}>
+      <section ref={statsRef} className="veltra-stats-grid" style={{ ...statsStyle, maxWidth: 1280, margin: '0 auto', padding: '90px 32px', display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 24 }}>
         {[
           [cars.length ? counts.listings.toLocaleString('en-US') : '—', 'autos activos'],
           [cars.length ? counts.sellers.toLocaleString('en-US') : '—', 'vendedores verificados'],
@@ -378,7 +428,7 @@ export default function Landing() {
         <span style={{ display: 'inline-flex', fontSize: 11.5, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'oklch(0.72 0.17 55)', marginBottom: 14 }}>● Categorías</span>
         <h2 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 40, margin: '0 0 8px' }}>Explora por categoría</h2>
         <p style={{ fontSize: 16, color: 'oklch(0.68 0.015 30)', margin: '0 0 40px' }}>Encuentra exactamente el tipo de vehículo que buscas</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 16 }}>
+        <div className="veltra-categories-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 16 }}>
           {CATEGORIES.map((cat) => (
             <Link
               key={cat.key}
@@ -423,7 +473,7 @@ export default function Landing() {
           <Link to="/catalogo" style={{ textDecoration: 'none', color: 'oklch(0.72 0.17 55)', fontWeight: 700, fontSize: 14.5 }}>Ver catálogo completo →</Link>
         </div>
         {cars.length > 0 && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 22 }}>
+          <div className="veltra-cards-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 22 }}>
             {cars.slice(0, 6).map((car) => (
               <CarCard key={car.id} car={car} />
             ))}
@@ -444,7 +494,7 @@ export default function Landing() {
             <span style={{ display: 'block', fontSize: 11.5, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'oklch(0.72 0.17 55)', fontFamily: "'Manrope', sans-serif", marginBottom: 16 }}>● Proceso</span>
             Cómo funciona VELTRA
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 32, position: 'relative' }}>
+          <div className="veltra-steps-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 32, position: 'relative' }}>
             <div style={{ position: 'absolute', top: 28, left: '16%', right: '16%', height: 1, background: 'linear-gradient(90deg, transparent, oklch(1 0 0 / 0.2), transparent)' }} />
             {STEPS.map((step) => (
               <div key={step.n} style={{ textAlign: 'center', position: 'relative' }}>
@@ -466,7 +516,7 @@ export default function Landing() {
           Por qué comprar en VELTRA
         </h2>
         <p style={{ fontSize: 16, color: 'oklch(0.68 0.015 30)', margin: '0 0 50px', textAlign: 'center' }}>Confianza en cada paso de tu compra</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20 }}>
+        <div className="veltra-why-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20 }}>
           {WHY_US.map((item) => (
             <div key={item.title} style={{ padding: '30px 24px', borderRadius: 20, background: 'oklch(0.21 0.016 30 / 0.5)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: 'linear-gradient(135deg, oklch(0.63 0.20 25 / 0.3), oklch(0.72 0.17 55 / 0.3))', marginBottom: 18, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -484,7 +534,7 @@ export default function Landing() {
 
       {/* CTA */}
       <section id="vender" ref={ctaRef} style={{ ...ctaStyle, margin: '60px 32px', padding: '80px 40px', borderRadius: 32, background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        <h2 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 44, margin: '0 0 16px', color: 'oklch(0.14 0.012 30)' }}>¿Tienes un auto para vender?</h2>
+        <h2 className="veltra-cta-title" style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 44, margin: '0 0 16px', color: 'oklch(0.14 0.012 30)' }}>¿Tienes un auto para vender?</h2>
         <p style={{ fontSize: 17, margin: '0 0 32px', color: 'oklch(0.2 0.02 30 / 0.85)' }}>Publica tu anuncio gratis en minutos y llega a miles de compradores verificados.</p>
         <Link
           to="/publicar"
@@ -507,7 +557,7 @@ export default function Landing() {
 
       {/* FOOTER */}
       <footer id="financiamiento" style={{ maxWidth: 1280, margin: '0 auto', padding: '70px 32px 40px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: 40, borderBottom: '1px solid oklch(1 0 0 / 0.08)', paddingBottom: 50, marginBottom: 30 }}>
+        <div className="veltra-footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: 40, borderBottom: '1px solid oklch(1 0 0 / 0.08)', paddingBottom: 50, marginBottom: 30 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
               <span style={{ width: 20, height: 20, borderRadius: 6, background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))', display: 'inline-block', transform: 'rotate(-8deg)', flexShrink: 0 }} />

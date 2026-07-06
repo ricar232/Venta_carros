@@ -85,9 +85,10 @@ export default function VehicleDetail() {
       )}
 
       {!!car && (
-        <div style={{ maxWidth: 1400, margin: '0 auto', padding: '20px 32px 110px', display: 'grid', gridTemplateColumns: '1fr 380px', gap: 36, alignItems: 'flex-start' }}>
+        <div className="veltra-sidebar-layout" style={{ maxWidth: 1400, margin: '0 auto', padding: '20px 32px 110px', display: 'grid', gridTemplateColumns: '1fr 380px', gap: 36, alignItems: 'flex-start' }}>
           <div>
             <div
+              className="veltra-detail-photo"
               style={{
                 position: 'relative',
                 borderRadius: 24,
@@ -187,7 +188,7 @@ export default function VehicleDetail() {
               </p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginTop: 32 }}>
+            <div className="veltra-specs-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginTop: 32 }}>
               {[
                 ['Transmisión', displayCar.transmission],
                 ['Combustible', displayCar.fuel],
@@ -212,7 +213,7 @@ export default function VehicleDetail() {
 
             <div id="financiamiento" style={{ marginTop: 44, padding: 30, borderRadius: 24, background: 'oklch(0.21 0.016 30 / 0.5)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
               <h2 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26, margin: '0 0 22px' }}>Calculadora de financiamiento</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }}>
+              <div className="veltra-split-panel" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
@@ -282,7 +283,7 @@ export default function VehicleDetail() {
 
             <div style={{ marginTop: 56 }}>
               <h2 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26, margin: '0 0 22px' }}>Vehículos similares</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
+              <div className="veltra-cards-grid-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
                 {similar.map((s) => (
                   <CarCard key={s.id} car={s} />
                 ))}

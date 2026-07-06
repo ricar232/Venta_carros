@@ -14,6 +14,7 @@ export default function Catalog() {
   const [carsLoaded, setCarsLoaded] = useState(false);
   const [filters, setFilters] = useState(emptyFilters);
   const [sort, setSort] = useState('recent');
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   useEffect(() => {
     const typeParam = searchParams.get('type');
@@ -78,8 +79,32 @@ export default function Catalog() {
         <p style={{ fontSize: 15.5, color: 'oklch(0.68 0.015 30)', margin: 0 }}>{resultsCount} anuncios encontrados</p>
       </header>
 
-      <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 32px 100px', display: 'grid', gridTemplateColumns: '280px 1fr', gap: 32, alignItems: 'flex-start' }}>
+      <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 32px 16px' }}>
+        <button
+          type="button"
+          className="veltra-filters-toggle"
+          onClick={() => setFiltersOpen((v) => !v)}
+          style={{
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: 'oklch(0.21 0.016 30 / 0.55)',
+            border: '1px solid oklch(1 0 0 / 0.1)',
+            borderRadius: 14,
+            padding: '14px 18px',
+            color: 'oklch(0.95 0.008 30)',
+            fontSize: 14.5,
+            fontWeight: 700,
+            cursor: 'pointer',
+          }}
+        >
+          Filtros {filtersOpen ? '▴' : '▾'}
+        </button>
+      </div>
+
+      <div className="veltra-sidebar-layout" style={{ maxWidth: 1400, margin: '0 auto', padding: '0 32px 100px', display: 'grid', gridTemplateColumns: '280px 1fr', gap: 32, alignItems: 'flex-start' }}>
         <aside
+          className={filtersOpen ? '' : 'veltra-filters-collapsed'}
           style={{
             position: 'sticky',
             top: 94,
@@ -258,7 +283,7 @@ export default function Catalog() {
           </div>
 
           {hasResults && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 22 }}>
+            <div className="veltra-cards-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 22 }}>
               {filteredCars.map((car) => (
                 <CarCard key={car.id} car={car} />
               ))}

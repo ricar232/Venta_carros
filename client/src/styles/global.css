@@ -234,3 +234,105 @@ input[type='range']::-moz-range-thumb {
 .veltra-car-card:hover .veltra-car-card-photo-tint {
   transform: scale(1.08);
 }
+
+/* ---------------------------------------------------------------------
+   Responsive: tablet (<=900px) and phone (<=560px). Inline styles can't
+   respond to media queries, so any element whose layout must change on
+   a small screen gets one of these classes instead.
+   --------------------------------------------------------------------- */
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* Multi-column grids that collapse column count on smaller screens. */
+@media (max-width: 900px) {
+  .veltra-cards-grid-3,
+  .veltra-cards-grid-4,
+  .veltra-stats-grid,
+  .veltra-specs-grid,
+  .veltra-why-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .veltra-categories-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+  .veltra-steps-grid,
+  .veltra-footer-grid,
+  .veltra-hero-grid,
+  .veltra-sidebar-layout,
+  .veltra-split-panel {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .veltra-cards-grid-3,
+  .veltra-cards-grid-4,
+  .veltra-why-grid,
+  .veltra-categories-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .veltra-form-row {
+    grid-template-columns: 1fr !important;
+  }
+  .veltra-hero-title {
+    font-size: 42px !important;
+  }
+  .veltra-cta-title {
+    font-size: 30px !important;
+  }
+  .veltra-detail-photo {
+    height: 260px !important;
+  }
+  .veltra-listing-row {
+    flex-wrap: wrap;
+  }
+}
+
+/* Navbar / Landing header: hamburger menu below 900px. */
+.veltra-nav-burger {
+  display: none;
+}
+@media (max-width: 900px) {
+  .veltra-nav-desktop {
+    display: none !important;
+  }
+  .veltra-nav-burger {
+    display: flex !important;
+  }
+}
+
+.veltra-nav-mobile-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 24px 24px;
+  background: oklch(0.14 0.012 30);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid oklch(1 0 0 / 0.08);
+  box-shadow: 0 20px 40px -10px oklch(0 0 0 / 0.6);
+}
+.veltra-nav-mobile-panel a,
+.veltra-nav-mobile-panel button {
+  padding: 12px 4px;
+  text-align: left;
+}
+
+/* Catalog: collapsible filters panel on tablet/phone. */
+.veltra-filters-toggle {
+  display: none;
+}
+@media (max-width: 900px) {
+  .veltra-filters-toggle {
+    display: flex !important;
+  }
+  .veltra-filters-collapsed {
+    display: none !important;
+  }
+}

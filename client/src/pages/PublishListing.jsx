@@ -170,7 +170,7 @@ export default function PublishListing() {
             borderRadius: 24, padding: 32, backdropFilter: 'blur(20px)',
           }}
         >
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div className="veltra-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <div>
               <label style={labelStyle}>Marca</label>
               <input type="text" value={fields.make} onChange={(e) => setField('make', e.target.value)} placeholder="Toyota" required style={inputStyle} />
@@ -181,7 +181,7 @@ export default function PublishListing() {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+          <div className="veltra-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
             <div>
               <label style={labelStyle}>Año</label>
               <input type="number" value={fields.year} onChange={(e) => setField('year', e.target.value)} placeholder="2023" required style={inputStyle} />
@@ -196,7 +196,7 @@ export default function PublishListing() {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div className="veltra-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <div>
               <label style={labelStyle}>Ciudad</label>
               <input type="text" value={fields.city} onChange={(e) => setField('city', e.target.value)} placeholder="Orlando, FL" required style={inputStyle} />
@@ -207,7 +207,7 @@ export default function PublishListing() {
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
+          <div className="veltra-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
             <div>
               <label style={labelStyle}>Tipo</label>
               <select value={fields.type} onChange={(e) => setField('type', e.target.value)} style={inputStyle}>

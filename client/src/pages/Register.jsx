@@ -53,7 +53,7 @@ export default function Register() {
     <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
       <AuthNavbar mode="register" />
 
-      <div style={{ maxWidth: 1080, margin: '0 auto', padding: '70px 32px 100px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
+      <div className="veltra-split-panel" style={{ maxWidth: 1080, margin: '0 auto', padding: '70px 32px 100px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
         <div>
           <span
             style={{
@@ -176,7 +176,7 @@ export default function Register() {
                   <label style={labelStyle}>Teléfono</label>
                   <input type="tel" value={fields.phone} onChange={(e) => setField('phone', e.target.value)} placeholder="(407) 555-0148" required style={inputStyle} />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div className="veltra-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                   <div>
                     <label style={labelStyle}>Contraseña</label>
                     <input

@@ -8,12 +8,35 @@ const linkActive = { textDecoration: 'none', color: 'oklch(0.72 0.17 55)', fontS
 export default function Navbar({ active }) {
   const navigate = useNavigate();
   const [session, setSession] = useState(getSession());
+  const [menuOpen, setMenuOpen] = useState(false);
 
   function handleLogout() {
     clearSession();
     setSession(getSession());
+    setMenuOpen(false);
     navigate('/');
   }
+
+  const ctaLink = (
+    <Link
+      to="/publicar"
+      className="veltra-cta"
+      onClick={() => setMenuOpen(false)}
+      style={{
+        textDecoration: 'none',
+        fontWeight: 700,
+        fontSize: 14,
+        color: 'oklch(0.16 0.014 30)',
+        background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+        padding: '11px 20px',
+        borderRadius: 100,
+        transition: 'transform .25s ease, box-shadow .25s ease',
+        textAlign: 'center',
+      }}
+    >
+      Publicar anuncio
+    </Link>
+  );
 
   return (
     <nav
@@ -44,12 +67,13 @@ export default function Navbar({ active }) {
           <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 26, lineHeight: 1 }}>VELTRA</span>
           <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: 'oklch(0.68 0.015 30)' }}>marketplace</span>
         </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+
+        <div className="veltra-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
           <Link to="/catalogo" style={active === 'catalogo' ? linkActive : linkBase}>Explorar</Link>
           <Link to="/#como-funciona" style={linkBase}>Cómo funciona</Link>
           <Link to="/registro" style={linkBase}>Vender</Link>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        <div className="veltra-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           {session.token ? (
             <>
               <Link to="/mis-anuncios" style={active === 'mis-anuncios' ? linkActive : linkBase}>Mis anuncios</Link>
@@ -65,24 +89,54 @@ export default function Navbar({ active }) {
           ) : (
             <Link to="/login" style={linkBase}>Iniciar sesión</Link>
           )}
-          <Link
-            to="/publicar"
-            className="veltra-cta"
-            style={{
-              textDecoration: 'none',
-              fontWeight: 700,
-              fontSize: 14,
-              color: 'oklch(0.16 0.014 30)',
-              background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
-              padding: '11px 20px',
-              borderRadius: 100,
-              transition: 'transform .25s ease, box-shadow .25s ease',
-            }}
-          >
-            Publicar anuncio
-          </Link>
+          {ctaLink}
         </div>
+
+        <button
+          type="button"
+          className="veltra-nav-burger"
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label="Abrir menú"
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 38,
+            height: 38,
+            background: 'none',
+            border: '1px solid oklch(1 0 0 / 0.15)',
+            borderRadius: 10,
+            color: 'oklch(0.95 0.008 30)',
+            fontSize: 18,
+            cursor: 'pointer',
+          }}
+        >
+          {menuOpen ? '✕' : '☰'}
+        </button>
       </div>
+
+      {menuOpen && (
+        <div className="veltra-nav-mobile-panel">
+          <Link to="/catalogo" onClick={() => setMenuOpen(false)} style={active === 'catalogo' ? linkActive : linkBase}>Explorar</Link>
+          <Link to="/#como-funciona" onClick={() => setMenuOpen(false)} style={linkBase}>Cómo funciona</Link>
+          <Link to="/registro" onClick={() => setMenuOpen(false)} style={linkBase}>Vender</Link>
+          {session.token ? (
+            <>
+              <Link to="/mis-anuncios" onClick={() => setMenuOpen(false)} style={active === 'mis-anuncios' ? linkActive : linkBase}>Mis anuncios</Link>
+              <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)', padding: '12px 4px' }}>Hola, {(session.user?.name || '').split(' ')[0]}</span>
+              <button
+                type="button"
+                onClick={handleLogout}
+                style={{ background: 'none', border: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600, cursor: 'pointer', fontFamily: "'Manrope', sans-serif" }}
+              >
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <Link to="/login" onClick={() => setMenuOpen(false)} style={linkBase}>Iniciar sesión</Link>
+          )}
+          <div style={{ marginTop: 8 }}>{ctaLink}</div>
+        </div>
+      )}
     </nav>
   );
 }

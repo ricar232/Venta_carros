@@ -112,6 +112,7 @@ export default function MyListings() {
           {cars.map((car) => (
             <div
               key={car.id}
+              className="veltra-listing-row"
               style={{
                 display: 'flex', alignItems: 'center', gap: 16,
                 background: 'oklch(0.21 0.016 30 / 0.55)', border: '1px solid oklch(1 0 0 / 0.09)',
