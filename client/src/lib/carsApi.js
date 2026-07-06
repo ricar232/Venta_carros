@@ -20,9 +20,12 @@
 //   sellerType: "Concesionario" | "Particular",
 //   seller: string,                            // seller display name
 //   sellerPhone: string,                         // "(407) 555-0148"
-//   g1: string, g2: string                        // two CSS colors used for the
-//                                                   // placeholder photo gradient
-//                                                   // until real photos exist.
+//   g1: string, g2: string                        // two CSS colors for the
+//                                                   // placeholder gradient, used
+//                                                   // only as a fallback when
+//                                                   // photos is empty.
+//   photos: string[]                                // uploaded photo URLs
+//                                                     // (/uploads/cars/<file>)
 // }
 
 const API_BASE = '/api';
@@ -51,13 +54,13 @@ export function similarCars(cars, car, count) {
   return cars.filter((c) => c.id !== car.id && (c.type === car.type || c.make === car.make)).slice(0, count || 4);
 }
 
-export async function createCar(payload, token) {
+export async function createCar(formData, token) {
   let res;
   try {
     res = await fetch(`${API_BASE}/cars`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify(payload),
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
     });
   } catch (err) {
     throw new Error('No se pudo conectar con el servidor. Verifica que el backend esté corriendo.');

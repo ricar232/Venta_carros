@@ -18,6 +18,7 @@ if (!process.env.JWT_SECRET) {
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/cars', carsRoutes);
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 const clientDist = path.join(__dirname, '..', '..', 'client', 'dist');
 const clientIndex = path.join(clientDist, 'index.html');

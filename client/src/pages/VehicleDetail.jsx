@@ -11,7 +11,7 @@ export default function VehicleDetail() {
   const [loaded, setLoaded] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
-  const [activeThumb, setActiveThumb] = useState(1);
+  const [activeThumb, setActiveThumb] = useState(0);
   const [down, setDown] = useState(20);
   const [term, setTerm] = useState(48);
   const [rate, setRate] = useState(12);
@@ -60,9 +60,11 @@ export default function VehicleDetail() {
 
   const placeholder = {
     make: '', model: '', year: '', mileageFmt: '', city: '', priceFmt: '', transmission: '', fuel: '', color: '', doors: '',
-    g1: 'oklch(0.4 0.05 30)', g2: 'oklch(0.3 0.05 30)', verified: false, seller: '', sellerTypeLabel: '', sellerInitial: '', rating: '',
+    g1: 'oklch(0.4 0.05 30)', g2: 'oklch(0.3 0.05 30)', verified: false, seller: '', sellerTypeLabel: '', sellerInitial: '', rating: '', photos: [],
   };
   const displayCar = car || placeholder;
+  const hasPhotos = displayCar.photos?.length > 0;
+  const mainPhoto = hasPhotos ? displayCar.photos[Math.min(activeThumb, displayCar.photos.length - 1)] : null;
   const phoneLabel = phoneRevealed ? displayCar.sellerPhone || 'No disponible' : 'Mostrar teléfono';
 
   return (
@@ -95,29 +97,35 @@ export default function VehicleDetail() {
                 height: 460,
               }}
             >
-              <div
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 11px, oklch(1 0 0 / 0.05) 11px, oklch(1 0 0 / 0.05) 12px)',
-                }}
-              />
-              <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: 12.5,
-                    letterSpacing: '.08em',
-                    textTransform: 'uppercase',
-                    color: 'oklch(1 0 0 / 0.65)',
-                    background: 'oklch(0 0 0 / 0.3)',
-                    padding: '8px 16px',
-                    borderRadius: 8,
-                  }}
-                >
-                  foto {activeThumb} de 5 · {displayCar.make} {displayCar.model}
-                </span>
-              </div>
+              {mainPhoto ? (
+                <img src={mainPhoto} alt={`${displayCar.make} ${displayCar.model}`} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : (
+                <>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 11px, oklch(1 0 0 / 0.05) 11px, oklch(1 0 0 / 0.05) 12px)',
+                    }}
+                  />
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span
+                      style={{
+                        fontFamily: "'JetBrains Mono', monospace",
+                        fontSize: 12.5,
+                        letterSpacing: '.08em',
+                        textTransform: 'uppercase',
+                        color: 'oklch(1 0 0 / 0.65)',
+                        background: 'oklch(0 0 0 / 0.3)',
+                        padding: '8px 16px',
+                        borderRadius: 8,
+                      }}
+                    >
+                      foto · {displayCar.make} {displayCar.model}
+                    </span>
+                  </div>
+                </>
+              )}
               <div style={{ position: 'absolute', top: 16, left: 16, display: 'flex', gap: 8 }}>
                 {displayCar.verified && (
                   <span
@@ -143,23 +151,27 @@ export default function VehicleDetail() {
                 )}
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 10, marginTop: 10 }}>
-              {[1, 2, 3, 4, 5].map((i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveThumb(i)}
-                  style={{
-                    height: 70,
-                    borderRadius: 12,
-                    border: `2px solid ${i === activeThumb ? 'oklch(0.72 0.17 55)' : 'transparent'}`,
-                    background: `linear-gradient(135deg,${displayCar.g1},${displayCar.g2})`,
-                    cursor: 'pointer',
-                    padding: 0,
-                    opacity: i === activeThumb ? 1 : 0.55,
-                  }}
-                />
-              ))}
-            </div>
+            {hasPhotos && displayCar.photos.length > 1 && (
+              <div style={{ display: 'grid', gridTemplateColumns: `repeat(${displayCar.photos.length},1fr)`, gap: 10, marginTop: 10 }}>
+                {displayCar.photos.map((photo, i) => (
+                  <button
+                    key={photo}
+                    onClick={() => setActiveThumb(i)}
+                    style={{
+                      height: 70,
+                      borderRadius: 12,
+                      overflow: 'hidden',
+                      border: `2px solid ${i === activeThumb ? 'oklch(0.72 0.17 55)' : 'transparent'}`,
+                      cursor: 'pointer',
+                      padding: 0,
+                      opacity: i === activeThumb ? 1 : 0.55,
+                    }}
+                  >
+                    <img src={photo} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  </button>
+                ))}
+              </div>
+            )}
 
             <div style={{ marginTop: 36, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20 }}>
               <div>

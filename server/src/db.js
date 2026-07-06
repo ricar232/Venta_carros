@@ -43,3 +43,10 @@ db.exec(`
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
   );
 `);
+
+// Migración aditiva: nunca se recrea ni se borra veltra.sqlite, así que las
+// columnas nuevas se agregan a mano y solo si todavía no existen.
+const carsColumns = db.prepare("PRAGMA table_info(cars)").all().map((c) => c.name);
+if (!carsColumns.includes('photos')) {
+  db.exec('ALTER TABLE cars ADD COLUMN photos TEXT');
+}

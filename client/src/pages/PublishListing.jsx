@@ -7,6 +7,8 @@ import { createCar } from '../lib/carsApi.js';
 const TYPES = ['SUV', 'Sedán', 'Pickup', 'Deportivo', 'Eléctrico'];
 const FUELS = ['Gasolina', 'Híbrido', 'Eléctrico'];
 const TRANSMISSIONS = ['Automática', 'Manual'];
+const MAX_PHOTOS = 6;
+const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
 
 const initialFields = {
   make: '', model: '', year: '', price: '', mileage: '', city: '', color: '', doors: '4',
@@ -16,6 +18,7 @@ const initialFields = {
 export default function PublishListing() {
   const session = getSession();
   const [fields, setFields] = useState(initialFields);
+  const [photos, setPhotos] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [createdCar, setCreatedCar] = useState(null);
@@ -24,20 +27,52 @@ export default function PublishListing() {
     setFields((f) => ({ ...f, [key]: value }));
   }
 
+  function handlePhotoSelect(e) {
+    const chosen = Array.from(e.target.files || []);
+    e.target.value = '';
+    if (!chosen.length) return;
+
+    const oversized = chosen.find((f) => f.size > MAX_PHOTO_SIZE);
+    if (oversized) {
+      setError(`"${oversized.name}" pesa más de 5MB.`);
+      return;
+    }
+
+    setPhotos((prev) => {
+      const room = MAX_PHOTOS - prev.length;
+      if (room <= 0) {
+        setError(`Máximo ${MAX_PHOTOS} fotos por anuncio.`);
+        return prev;
+      }
+      const accepted = chosen.slice(0, room);
+      const next = [...prev, ...accepted.map((file) => ({ file, previewUrl: URL.createObjectURL(file) }))];
+      if (chosen.length > accepted.length) setError(`Máximo ${MAX_PHOTOS} fotos por anuncio — se agregaron ${accepted.length}.`);
+      else setError('');
+      return next;
+    });
+  }
+
+  function removePhoto(index) {
+    setPhotos((prev) => {
+      URL.revokeObjectURL(prev[index].previewUrl);
+      return prev.filter((_, i) => i !== index);
+    });
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
+    if (photos.length === 0) {
+      setError('Agrega al menos una foto.');
+      return;
+    }
     setSubmitting(true);
     setError('');
-    createCar(
-      {
-        ...fields,
-        year: Number(fields.year),
-        price: Number(fields.price),
-        mileage: Number(fields.mileage),
-        doors: Number(fields.doors),
-      },
-      session.token
-    )
+
+    const formData = new FormData();
+    Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
+    photos.forEach(({ file }) => formData.append('photos', file));
+
+    createCar(formData, session.token)
       .then((car) => {
         setSubmitting(false);
         setCreatedCar(car);
@@ -124,7 +159,7 @@ export default function PublishListing() {
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '60px 32px 100px' }}>
         <h1 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 36, margin: '0 0 8px' }}>Publica tu auto</h1>
         <p style={{ fontSize: 14.5, color: 'oklch(0.68 0.015 30)', margin: '0 0 32px' }}>
-          Los datos del vendedor se toman de tu cuenta. Las fotos se muestran como marcador de posición por ahora.
+          Los datos del vendedor se toman de tu cuenta. Agrega al menos una foto real de tu auto.
         </p>
 
         <form
@@ -212,6 +247,42 @@ export default function PublishListing() {
                   </button>
                 );
               })}
+            </div>
+          </div>
+
+          <div>
+            <label style={labelStyle}>Fotos ({photos.length}/{MAX_PHOTOS})</label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(84px, 1fr))', gap: 10 }}>
+              {photos.map((p, i) => (
+                <div key={p.previewUrl} style={{ position: 'relative', height: 84, borderRadius: 10, overflow: 'hidden', border: '1px solid oklch(1 0 0 / 0.12)' }}>
+                  <img src={p.previewUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  <button
+                    type="button"
+                    onClick={() => removePhoto(i)}
+                    aria-label="Quitar foto"
+                    style={{
+                      position: 'absolute', top: 4, right: 4, width: 22, height: 22, borderRadius: '50%',
+                      border: 'none', background: 'oklch(0 0 0 / 0.55)', color: '#fff', cursor: 'pointer',
+                      fontSize: 13, lineHeight: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+              {photos.length < MAX_PHOTOS && (
+                <label
+                  style={{
+                    height: 84, borderRadius: 10, border: '1.5px dashed oklch(1 0 0 / 0.2)', cursor: 'pointer',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                    color: 'oklch(0.65 0.015 30)', fontSize: 12, gap: 4,
+                  }}
+                >
+                  <span style={{ fontSize: 20 }}>+</span>
+                  Agregar
+                  <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={handlePhotoSelect} style={{ display: 'none' }} />
+                </label>
+              )}
             </div>
           </div>
 

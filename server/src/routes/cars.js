@@ -1,13 +1,27 @@
 import { Router } from 'express';
+import multer from 'multer';
 import { db } from '../db.js';
 import { requireAuth } from '../middleware/auth.js';
+import { uploadCarPhotos } from '../middleware/upload.js';
 
 const router = Router();
 
 const REQUIRED_FIELDS = ['make', 'model', 'year', 'price', 'mileage', 'type', 'fuel', 'transmission', 'city', 'color', 'doors'];
 
-// Placeholder photo gradients — the site has no photo upload yet, so every
-// listing gets a two-tone gradient + "foto · Marca Modelo" label instead.
+function handlePhotoUpload(req, res, next) {
+  uploadCarPhotos.array('photos', 6)(req, res, (err) => {
+    if (!err) return next();
+    if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ message: 'Cada foto debe pesar menos de 5MB.' });
+    }
+    if (err instanceof multer.MulterError && err.code === 'LIMIT_FILE_COUNT') {
+      return res.status(400).json({ message: 'Máximo 6 fotos por anuncio.' });
+    }
+    return res.status(400).json({ message: err.message || 'No se pudieron subir las fotos.' });
+  });
+}
+
+// Degradado de respaldo — solo se usa si un auto no tiene fotos reales.
 const GRADIENT_PALETTE = [
   ['oklch(0.60 0.20 25)', 'oklch(0.68 0.18 45)'],
   ['oklch(0.55 0.03 250)', 'oklch(0.4 0.02 260)'],
@@ -38,6 +52,7 @@ function toApiShape(row) {
     sellerPhone: row.seller_phone,
     g1: row.g1,
     g2: row.g2,
+    photos: JSON.parse(row.photos || '[]').map((f) => `/uploads/cars/${f}`),
   };
 }
 
@@ -46,7 +61,7 @@ router.get('/', (req, res) => {
   res.json(rows.map(toApiShape));
 });
 
-router.post('/', requireAuth, (req, res) => {
+router.post('/', requireAuth, handlePhotoUpload, (req, res) => {
   const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.userId);
   if (!user) return res.status(401).json({ message: 'Sesión inválida.' });
 
@@ -55,13 +70,17 @@ router.post('/', requireAuth, (req, res) => {
   if (missing.length) {
     return res.status(400).json({ message: `Faltan campos obligatorios: ${missing.join(', ')}.` });
   }
+  if (!req.files || req.files.length === 0) {
+    return res.status(400).json({ message: 'Agrega al menos una foto.' });
+  }
 
   const [g1, g2] = GRADIENT_PALETTE[Math.floor(Math.random() * GRADIENT_PALETTE.length)];
+  const photos = JSON.stringify(req.files.map((f) => f.filename));
 
   const info = db
     .prepare(
-      `INSERT INTO cars (make, model, year, price, mileage, type, fuel, transmission, city, color, doors, verified, rating, seller_type, seller, seller_phone, g1, g2, owner_user_id)
-       VALUES (@make, @model, @year, @price, @mileage, @type, @fuel, @transmission, @city, @color, @doors, 0, 0, @sellerType, @seller, @sellerPhone, @g1, @g2, @ownerUserId)`
+      `INSERT INTO cars (make, model, year, price, mileage, type, fuel, transmission, city, color, doors, verified, rating, seller_type, seller, seller_phone, g1, g2, owner_user_id, photos)
+       VALUES (@make, @model, @year, @price, @mileage, @type, @fuel, @transmission, @city, @color, @doors, 0, 0, @sellerType, @seller, @sellerPhone, @g1, @g2, @ownerUserId, @photos)`
     )
     .run({
       make: body.make,
@@ -81,6 +100,7 @@ router.post('/', requireAuth, (req, res) => {
       g1,
       g2,
       ownerUserId: user.id,
+      photos,
     });
 
   const row = db.prepare('SELECT * FROM cars WHERE id = ?').get(info.lastInsertRowid);

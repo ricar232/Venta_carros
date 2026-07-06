@@ -23,33 +23,39 @@ export default function CarCard({ car }) {
       }}
     >
       <div style={{ position: 'relative', height: 180, background: `linear-gradient(135deg,${car.g1},${car.g2})`, overflow: 'hidden' }}>
-        <div
-          className="veltra-car-card-photo-tint"
-          style={{
-            position: 'absolute',
-            inset: '-4px',
-            backgroundImage:
-              'repeating-linear-gradient(45deg, transparent, transparent 9px, oklch(1 0 0 / 0.05) 9px, oklch(1 0 0 / 0.05) 10px)',
-            transition: 'transform .5s ease',
-          }}
-        />
+        {car.photos?.length ? (
+          <img src={car.photos[0]} alt={`${car.make} ${car.model}`} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <>
+            <div
+              className="veltra-car-card-photo-tint"
+              style={{
+                position: 'absolute',
+                inset: '-4px',
+                backgroundImage:
+                  'repeating-linear-gradient(45deg, transparent, transparent 9px, oklch(1 0 0 / 0.05) 9px, oklch(1 0 0 / 0.05) 10px)',
+                transition: 'transform .5s ease',
+              }}
+            />
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span
+                style={{
+                  fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: 11,
+                  letterSpacing: '.08em',
+                  textTransform: 'uppercase',
+                  color: 'oklch(1 0 0 / 0.55)',
+                  background: 'oklch(0 0 0 / 0.25)',
+                  padding: '6px 10px',
+                  borderRadius: 8,
+                }}
+              >
+                foto · {car.make} {car.model}
+              </span>
+            </div>
+          </>
+        )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, oklch(1 0 0 / 0.1), transparent 40%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 11,
-              letterSpacing: '.08em',
-              textTransform: 'uppercase',
-              color: 'oklch(1 0 0 / 0.55)',
-              background: 'oklch(0 0 0 / 0.25)',
-              padding: '6px 10px',
-              borderRadius: 8,
-            }}
-          >
-            foto · {car.make} {car.model}
-          </span>
-        </div>
         <div style={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 6 }}>
           {car.verified && (
             <span
