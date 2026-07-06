@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthNavbar from '../components/AuthNavbar.jsx';
 import { loginUser, saveSession } from '../lib/auth.js';
 
 export default function Login() {
+  const navigate = useNavigate();
   const [fields, setFields] = useState({ email: '', password: '' });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -22,6 +24,7 @@ export default function Login() {
         saveSession(data);
         setSubmitting(false);
         setSuccess(true);
+        setTimeout(() => navigate('/publicar'), 600);
       })
       .catch((err) => {
         setSubmitting(false);
