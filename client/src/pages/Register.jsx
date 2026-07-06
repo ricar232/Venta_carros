@@ -45,12 +45,12 @@ export default function Register() {
 
   function sellerTypeStyle(type) {
     return fields.sellerType === type
-      ? { border: '1px solid oklch(0.72 0.17 55)', background: 'oklch(0.72 0.17 55 / 0.18)', color: 'oklch(0.85 0.13 55)' }
-      : { border: '1px solid oklch(1 0 0 / 0.12)', background: 'transparent', color: 'oklch(0.75 0.015 30)' };
+      ? { border: '1px solid oklch(0.72 0.17 200)', background: 'oklch(0.72 0.17 200 / 0.18)', color: 'oklch(0.85 0.13 200)' }
+      : { border: '1px solid oklch(1 0 0 / 0.12)', background: 'transparent', color: 'oklch(0.75 0.015 265)' };
   }
 
   return (
-    <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+    <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 265)', color: 'oklch(0.97 0.008 265)', minHeight: '100vh' }}>
       <AuthNavbar mode="register" />
 
       <div className="veltra-split-panel" style={{ maxWidth: 1080, margin: '0 auto', padding: '70px 32px 100px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
@@ -62,9 +62,9 @@ export default function Register() {
               fontWeight: 700,
               letterSpacing: '.08em',
               textTransform: 'uppercase',
-              color: 'oklch(0.72 0.17 55)',
-              background: 'oklch(0.72 0.17 55 / 0.12)',
-              border: '1px solid oklch(0.72 0.17 55 / 0.35)',
+              color: 'oklch(0.72 0.17 200)',
+              background: 'oklch(0.72 0.17 200 / 0.12)',
+              border: '1px solid oklch(0.72 0.17 200 / 0.35)',
               padding: '7px 14px',
               borderRadius: 100,
               marginBottom: 24,
@@ -73,9 +73,9 @@ export default function Register() {
             Registro gratuito
           </span>
           <h1 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 46, lineHeight: 1.08, margin: '0 0 20px' }}>
-            Publica tu auto <em style={{ fontStyle: 'italic', color: 'oklch(0.72 0.17 55)' }}>sin costo</em>.
+            Publica tu auto <em style={{ fontStyle: 'italic', color: 'oklch(0.72 0.17 200)' }}>sin costo</em>.
           </h1>
-          <p style={{ fontSize: 16, lineHeight: 1.65, color: 'oklch(0.72 0.015 30)', maxWidth: 400, margin: '0 0 32px' }}>
+          <p style={{ fontSize: 16, lineHeight: 1.65, color: 'oklch(0.72 0.015 265)', maxWidth: 400, margin: '0 0 32px' }}>
             Crea tu cuenta para publicar anuncios, chatear con compradores y administrar tu inventario desde un solo lugar.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -86,8 +86,8 @@ export default function Register() {
                     width: 26,
                     height: 26,
                     borderRadius: '50%',
-                    background: 'oklch(0.72 0.17 55 / 0.18)',
-                    color: 'oklch(0.72 0.17 55)',
+                    background: 'oklch(0.72 0.17 200 / 0.18)',
+                    color: 'oklch(0.72 0.17 200)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -98,13 +98,13 @@ export default function Register() {
                 >
                   ✓
                 </span>
-                <span style={{ fontSize: 14.5, color: 'oklch(0.85 0.01 30)' }}>{text}</span>
+                <span style={{ fontSize: 14.5, color: 'oklch(0.85 0.01 265)' }}>{text}</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div style={{ background: 'oklch(0.21 0.016 30 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)', borderRadius: 24, padding: 36, backdropFilter: 'blur(20px)' }}>
+        <div style={{ background: 'oklch(0.21 0.016 265 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)', borderRadius: 24, padding: 36, backdropFilter: 'blur(20px)' }}>
           {success ? (
             <div style={{ textAlign: 'center', padding: '30px 10px' }}>
               <div
@@ -112,19 +112,19 @@ export default function Register() {
                   width: 56,
                   height: 56,
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+                  background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   margin: '0 auto 20px',
                   fontSize: 24,
-                  color: 'oklch(0.14 0.012 30)',
+                  color: 'oklch(0.14 0.012 265)',
                 }}
               >
                 ✓
               </div>
               <h2 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26, margin: '0 0 10px' }}>Cuenta creada</h2>
-              <p style={{ fontSize: 14.5, color: 'oklch(0.68 0.015 30)', margin: '0 0 26px' }}>Ya puedes iniciar sesión y comenzar a publicar.</p>
+              <p style={{ fontSize: 14.5, color: 'oklch(0.68 0.015 265)', margin: '0 0 26px' }}>Ya puedes iniciar sesión y comenzar a publicar.</p>
               <Link
                 to="/login"
                 style={{
@@ -132,8 +132,8 @@ export default function Register() {
                   textDecoration: 'none',
                   fontWeight: 700,
                   fontSize: 14.5,
-                  color: 'oklch(0.14 0.012 30)',
-                  background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+                  color: 'oklch(0.14 0.012 265)',
+                  background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
                   padding: '13px 28px',
                   borderRadius: 100,
                 }}
@@ -144,7 +144,7 @@ export default function Register() {
           ) : (
             <>
               <h2 style={{ margin: '0 0 6px', fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26 }}>Crea tu cuenta</h2>
-              <p style={{ margin: '0 0 24px', fontSize: 13.5, color: 'oklch(0.6 0.015 30)' }}>Es gratis y toma menos de un minuto.</p>
+              <p style={{ margin: '0 0 24px', fontSize: 13.5, color: 'oklch(0.6 0.015 265)' }}>Es gratis y toma menos de un minuto.</p>
 
               <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
                 <button
@@ -202,12 +202,12 @@ export default function Register() {
                   </div>
                 </div>
 
-                <label style={{ display: 'flex', alignItems: 'flex-start', gap: 9, fontSize: 12.5, color: 'oklch(0.65 0.015 30)', cursor: 'pointer', marginTop: 4 }}>
+                <label style={{ display: 'flex', alignItems: 'flex-start', gap: 9, fontSize: 12.5, color: 'oklch(0.65 0.015 265)', cursor: 'pointer', marginTop: 4 }}>
                   <input
                     type="checkbox"
                     checked={fields.acceptTerms}
                     onChange={() => setField('acceptTerms', !fields.acceptTerms)}
-                    style={{ accentColor: 'oklch(0.72 0.17 55)', width: 16, height: 16, marginTop: 1, flexShrink: 0 }}
+                    style={{ accentColor: 'oklch(0.72 0.17 200)', width: 16, height: 16, marginTop: 1, flexShrink: 0 }}
                   />
                   Acepto los términos y condiciones y la política de privacidad de VELTRA.
                 </label>
@@ -238,8 +238,8 @@ export default function Register() {
                     padding: 14,
                     borderRadius: 12,
                     border: 'none',
-                    background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
-                    color: 'oklch(0.14 0.012 30)',
+                    background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
+                    color: 'oklch(0.14 0.012 265)',
                     fontWeight: 800,
                     fontSize: 15,
                     cursor: 'pointer',
@@ -258,13 +258,13 @@ export default function Register() {
   );
 }
 
-const labelStyle = { display: 'block', fontSize: 12.5, fontWeight: 700, color: 'oklch(0.68 0.015 30)', marginBottom: 6 };
+const labelStyle = { display: 'block', fontSize: 12.5, fontWeight: 700, color: 'oklch(0.68 0.015 265)', marginBottom: 6 };
 
 const inputStyle = {
   width: '100%',
-  background: 'oklch(0.16 0.014 30)',
+  background: 'oklch(0.16 0.014 265)',
   border: '1px solid oklch(1 0 0 / 0.12)',
-  color: 'oklch(0.95 0.008 30)',
+  color: 'oklch(0.95 0.008 265)',
   fontFamily: "'Manrope', sans-serif",
   fontSize: 14,
   padding: '12px 14px',

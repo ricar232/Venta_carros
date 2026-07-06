@@ -71,18 +71,18 @@ export default function AdminDashboard() {
 
   if (!session.token || !isAdmin) {
     return (
-      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 265)', color: 'oklch(0.97 0.008 265)', minHeight: '100vh' }}>
         <Navbar />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 32px' }}>
           <div
             style={{
               width: '100%', maxWidth: 420, textAlign: 'center',
-              background: 'oklch(0.21 0.016 30 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)',
+              background: 'oklch(0.21 0.016 265 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)',
               borderRadius: 24, padding: 36, backdropFilter: 'blur(20px)',
             }}
           >
             <h2 style={{ margin: '0 0 10px', fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26 }}>Acceso restringido</h2>
-            <p style={{ margin: 0, fontSize: 14.5, color: 'oklch(0.68 0.015 30)' }}>Esta sección es solo para administradores de VELTRA.</p>
+            <p style={{ margin: 0, fontSize: 14.5, color: 'oklch(0.68 0.015 265)' }}>Esta sección es solo para administradores de VELTRA.</p>
           </div>
         </div>
       </div>
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
   const pending = users.filter((u) => u.status === 'pending');
 
   return (
-    <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+    <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 265)', color: 'oklch(0.97 0.008 265)', minHeight: '100vh' }}>
       <Navbar active="admin" />
       <div style={{ maxWidth: 1000, margin: '0 auto', padding: '60px 32px 100px' }}>
         <h1 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 36, margin: '0 0 32px' }}>Panel de administración</h1>
@@ -104,26 +104,26 @@ export default function AdminDashboard() {
         )}
 
         {!loaded ? (
-          <p style={{ color: 'oklch(0.65 0.015 30)' }}>Cargando…</p>
+          <p style={{ color: 'oklch(0.65 0.015 265)' }}>Cargando…</p>
         ) : (
           <>
             <section style={{ marginBottom: 48 }}>
               <h2 style={sectionTitleStyle}>Cuentas pendientes de aprobación ({pending.length})</h2>
               {pending.length === 0 ? (
-                <p style={{ fontSize: 14, color: 'oklch(0.6 0.015 30)' }}>No hay cuentas esperando aprobación.</p>
+                <p style={{ fontSize: 14, color: 'oklch(0.6 0.015 265)' }}>No hay cuentas esperando aprobación.</p>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {pending.map((u) => (
                     <div key={u.id} style={rowStyle}>
                       <div style={{ flex: 1, minWidth: 160 }}>
                         <p style={{ margin: 0, fontWeight: 700, fontSize: 14 }}>{u.name}</p>
-                        <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'oklch(0.6 0.015 30)' }}>{u.email} · {u.phone || 'sin teléfono'}</p>
+                        <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'oklch(0.6 0.015 265)' }}>{u.email} · {u.phone || 'sin teléfono'}</p>
                       </div>
                       <button
                         type="button"
                         disabled={busyId === u.id}
                         onClick={() => handleApprove(u.id)}
-                        style={{ background: 'oklch(0.72 0.17 55)', border: 'none', color: 'oklch(0.14 0.012 30)', fontWeight: 700, fontSize: 13, padding: '8px 16px', borderRadius: 100, cursor: 'pointer' }}
+                        style={{ background: 'oklch(0.72 0.17 200)', border: 'none', color: 'oklch(0.14 0.012 265)', fontWeight: 700, fontSize: 13, padding: '8px 16px', borderRadius: 100, cursor: 'pointer' }}
                       >
                         {busyId === u.id ? 'Aprobando…' : 'Aprobar'}
                       </button>
@@ -140,9 +140,9 @@ export default function AdminDashboard() {
                   <div key={u.id} style={rowStyle}>
                     <div style={{ flex: 1, minWidth: 160 }}>
                       <p style={{ margin: 0, fontWeight: 700, fontSize: 14 }}>
-                        {u.name} {u.role === 'admin' && <span style={{ color: 'oklch(0.72 0.17 55)', fontSize: 12 }}>· admin</span>}
+                        {u.name} {u.role === 'admin' && <span style={{ color: 'oklch(0.72 0.17 200)', fontSize: 12 }}>· admin</span>}
                       </p>
-                      <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'oklch(0.6 0.015 30)' }}>
+                      <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'oklch(0.6 0.015 265)' }}>
                         {u.email} · {u.status === 'approved' ? 'aprobado' : 'pendiente'}
                       </p>
                     </div>
@@ -170,18 +170,18 @@ export default function AdminDashboard() {
             <section>
               <h2 style={sectionTitleStyle}>Todos los anuncios ({cars.length})</h2>
               {cars.length === 0 ? (
-                <p style={{ fontSize: 14, color: 'oklch(0.6 0.015 30)' }}>No hay anuncios publicados.</p>
+                <p style={{ fontSize: 14, color: 'oklch(0.6 0.015 265)' }}>No hay anuncios publicados.</p>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {cars.map((c) => (
                     <div key={c.id} style={rowStyle}>
                       <div style={{ flex: 1, minWidth: 160 }}>
                         <p style={{ margin: 0, fontWeight: 700, fontSize: 14 }}>{c.make} {c.model}</p>
-                        <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'oklch(0.6 0.015 30)' }}>
+                        <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'oklch(0.6 0.015 265)' }}>
                           {formatPrice(c.price)} · vendedor: {c.seller}
                         </p>
                       </div>
-                      <Link to={`/vehiculo/${c.id}`} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 12.5, fontWeight: 700, border: '1px solid oklch(1 0 0 / 0.15)', padding: '7px 12px', borderRadius: 100 }}>
+                      <Link to={`/vehiculo/${c.id}`} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 265)', fontSize: 12.5, fontWeight: 700, border: '1px solid oklch(1 0 0 / 0.15)', padding: '7px 12px', borderRadius: 100 }}>
                         Ver
                       </Link>
                       {confirmCarId === c.id ? (
@@ -215,12 +215,12 @@ const sectionTitleStyle = { fontFamily: "'Instrument Serif', serif", fontWeight:
 
 const rowStyle = {
   display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap',
-  background: 'oklch(0.21 0.016 30 / 0.55)', border: '1px solid oklch(1 0 0 / 0.09)',
+  background: 'oklch(0.21 0.016 265 / 0.55)', border: '1px solid oklch(1 0 0 / 0.09)',
   borderRadius: 14, padding: '12px 16px',
 };
 
 const ghostSmallBtn = {
-  background: 'none', border: '1px solid oklch(1 0 0 / 0.15)', color: 'oklch(0.85 0.01 30)',
+  background: 'none', border: '1px solid oklch(1 0 0 / 0.15)', color: 'oklch(0.85 0.01 265)',
   fontWeight: 600, fontSize: 12.5, padding: '7px 12px', borderRadius: 100, cursor: 'pointer',
 };
 

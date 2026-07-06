@@ -60,7 +60,7 @@ export default function MyListings() {
 
   if (!session.token) {
     return (
-      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 265)', color: 'oklch(0.97 0.008 265)', minHeight: '100vh' }}>
         <Navbar />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 32px' }}>
           <div
@@ -68,7 +68,7 @@ export default function MyListings() {
               width: '100%',
               maxWidth: 420,
               textAlign: 'center',
-              background: 'oklch(0.21 0.016 30 / 0.55)',
+              background: 'oklch(0.21 0.016 265 / 0.55)',
               border: '1px solid oklch(1 0 0 / 0.08)',
               borderRadius: 24,
               padding: 36,
@@ -76,7 +76,7 @@ export default function MyListings() {
             }}
           >
             <h2 style={{ margin: '0 0 10px', fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26 }}>Inicia sesión para ver tus anuncios</h2>
-            <p style={{ margin: '0 0 26px', fontSize: 14.5, color: 'oklch(0.68 0.015 30)' }}>Necesitas una cuenta VELTRA para administrar tus autos publicados.</p>
+            <p style={{ margin: '0 0 26px', fontSize: 14.5, color: 'oklch(0.68 0.015 265)' }}>Necesitas una cuenta VELTRA para administrar tus autos publicados.</p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <Link to="/login" style={ghostBtnStyle}>Iniciar sesión</Link>
               <Link to="/registro" style={primaryBtnStyle}>Crear cuenta</Link>
@@ -88,11 +88,11 @@ export default function MyListings() {
   }
 
   return (
-    <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+    <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 265)', color: 'oklch(0.97 0.008 265)', minHeight: '100vh' }}>
       <Navbar active="mis-anuncios" />
       <div style={{ maxWidth: 800, margin: '0 auto', padding: '60px 32px 100px' }}>
         <h1 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 36, margin: '0 0 8px' }}>Mis anuncios</h1>
-        <p style={{ fontSize: 14.5, color: 'oklch(0.68 0.015 30)', margin: '0 0 32px' }}>
+        <p style={{ fontSize: 14.5, color: 'oklch(0.68 0.015 265)', margin: '0 0 32px' }}>
           {loaded ? `${cars.length} ${cars.length === 1 ? 'anuncio publicado' : 'anuncios publicados'}` : 'Cargando…'}
         </p>
 
@@ -103,23 +103,23 @@ export default function MyListings() {
         )}
 
         {loaded && cars.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '90px 20px', background: 'oklch(0.21 0.016 30 / 0.4)', border: '1px dashed oklch(1 0 0 / 0.15)', borderRadius: 20 }}>
+          <div style={{ textAlign: 'center', padding: '90px 20px', background: 'oklch(0.21 0.016 265 / 0.4)', border: '1px dashed oklch(1 0 0 / 0.15)', borderRadius: 20 }}>
             <div
               style={{
                 width: 64, height: 64, margin: '0 auto 20px', borderRadius: '50%',
-                background: 'linear-gradient(135deg, oklch(0.63 0.20 25 / 0.25), oklch(0.72 0.17 55 / 0.25))',
+                background: 'linear-gradient(135deg, oklch(0.63 0.20 275 / 0.25), oklch(0.72 0.17 200 / 0.25))',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28,
               }}
             >
               🚗
             </div>
             <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 28, margin: '0 0 8px' }}>Todavía no publicaste ningún auto</p>
-            <p style={{ fontSize: 14.5, color: 'oklch(0.65 0.015 30)', margin: '0 0 24px' }}>Publicá tu primer anuncio, es gratis.</p>
+            <p style={{ fontSize: 14.5, color: 'oklch(0.65 0.015 265)', margin: '0 0 24px' }}>Publicá tu primer anuncio, es gratis.</p>
             <Link
               to="/publicar"
               style={{
-                display: 'inline-block', textDecoration: 'none', background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
-                color: 'oklch(0.14 0.012 30)', fontWeight: 700, fontSize: 14, padding: '13px 26px', borderRadius: 100,
+                display: 'inline-block', textDecoration: 'none', background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
+                color: 'oklch(0.14 0.012 265)', fontWeight: 700, fontSize: 14, padding: '13px 26px', borderRadius: 100,
               }}
             >
               Publicar mi auto →
@@ -134,7 +134,7 @@ export default function MyListings() {
               className="veltra-listing-row"
               style={{
                 display: 'flex', alignItems: 'center', gap: 16,
-                background: 'oklch(0.21 0.016 30 / 0.55)', border: '1px solid oklch(1 0 0 / 0.09)',
+                background: 'oklch(0.21 0.016 265 / 0.55)', border: '1px solid oklch(1 0 0 / 0.09)',
                 borderRadius: 16, padding: 14, backdropFilter: 'blur(20px)',
               }}
             >
@@ -145,17 +145,17 @@ export default function MyListings() {
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <h3 style={{ margin: 0, fontFamily: "'Instrument Serif', serif", fontSize: 19, fontWeight: 400 }}>{car.make} {car.model}</h3>
-                <p style={{ margin: '2px 0 0', fontSize: 13, color: 'oklch(0.65 0.015 30)' }}>
+                <p style={{ margin: '2px 0 0', fontSize: 13, color: 'oklch(0.65 0.015 265)' }}>
                   {car.year} · {car.mileageFmt} mi · {car.city}
                 </p>
               </div>
-              <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 19, color: 'oklch(0.72 0.17 55)', whiteSpace: 'nowrap' }}>
+              <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 19, color: 'oklch(0.72 0.17 200)', whiteSpace: 'nowrap' }}>
                 {car.priceFmt}
               </span>
 
               {confirmingId === car.id ? (
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
-                  <span style={{ fontSize: 13, color: 'oklch(0.75 0.015 30)' }}>¿Seguro?</span>
+                  <span style={{ fontSize: 13, color: 'oklch(0.75 0.015 265)' }}>¿Seguro?</span>
                   <button
                     type="button"
                     disabled={deletingId === car.id}
@@ -167,7 +167,7 @@ export default function MyListings() {
                   <button
                     type="button"
                     onClick={() => setConfirmingId(null)}
-                    style={{ background: 'none', border: '1px solid oklch(1 0 0 / 0.15)', color: 'oklch(0.85 0.01 30)', fontWeight: 600, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
+                    style={{ background: 'none', border: '1px solid oklch(1 0 0 / 0.15)', color: 'oklch(0.85 0.01 265)', fontWeight: 600, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
                   >
                     Cancelar
                   </button>
@@ -180,7 +180,7 @@ export default function MyListings() {
                     onChange={(e) => setBuyerEmail(e.target.value)}
                     placeholder="Correo del comprador"
                     style={{
-                      background: 'oklch(0.16 0.014 30)', border: '1px solid oklch(1 0 0 / 0.15)', color: 'oklch(0.95 0.008 30)',
+                      background: 'oklch(0.16 0.014 265)', border: '1px solid oklch(1 0 0 / 0.15)', color: 'oklch(0.95 0.008 265)',
                       fontFamily: "'Manrope', sans-serif", fontSize: 13, padding: '8px 12px', borderRadius: 100, width: 190,
                     }}
                   />
@@ -188,27 +188,27 @@ export default function MyListings() {
                     type="button"
                     disabled={sellBusyId === car.id || !buyerEmail}
                     onClick={() => handleMarkSold(car.id)}
-                    style={{ background: 'oklch(0.72 0.17 55)', border: 'none', color: 'oklch(0.14 0.012 30)', fontWeight: 700, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
+                    style={{ background: 'oklch(0.72 0.17 200)', border: 'none', color: 'oklch(0.14 0.012 265)', fontWeight: 700, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
                   >
                     {sellBusyId === car.id ? 'Confirmando…' : 'Confirmar venta'}
                   </button>
                   <button
                     type="button"
                     onClick={() => { setSellingId(null); setBuyerEmail(''); }}
-                    style={{ background: 'none', border: '1px solid oklch(1 0 0 / 0.15)', color: 'oklch(0.85 0.01 30)', fontWeight: 600, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
+                    style={{ background: 'none', border: '1px solid oklch(1 0 0 / 0.15)', color: 'oklch(0.85 0.01 265)', fontWeight: 600, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
                   >
                     Cancelar
                   </button>
                 </div>
               ) : (
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
-                  <Link to={`/vehiculo/${car.id}`} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 13, fontWeight: 700, border: '1px solid oklch(1 0 0 / 0.15)', padding: '8px 14px', borderRadius: 100 }}>
+                  <Link to={`/vehiculo/${car.id}`} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 265)', fontSize: 13, fontWeight: 700, border: '1px solid oklch(1 0 0 / 0.15)', padding: '8px 14px', borderRadius: 100 }}>
                     Ver
                   </Link>
                   <button
                     type="button"
                     onClick={() => setSellingId(car.id)}
-                    style={{ background: 'none', border: '1px solid oklch(0.72 0.17 55 / 0.4)', color: 'oklch(0.85 0.13 55)', fontWeight: 700, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
+                    style={{ background: 'none', border: '1px solid oklch(0.72 0.17 200 / 0.4)', color: 'oklch(0.85 0.13 200)', fontWeight: 700, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
                   >
                     Marcar vendida
                   </button>
@@ -230,12 +230,12 @@ export default function MyListings() {
 }
 
 const primaryBtnStyle = {
-  textDecoration: 'none', fontWeight: 700, fontSize: 14, color: 'oklch(0.14 0.012 30)',
-  background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+  textDecoration: 'none', fontWeight: 700, fontSize: 14, color: 'oklch(0.14 0.012 265)',
+  background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
   padding: '12px 22px', borderRadius: 100,
 };
 
 const ghostBtnStyle = {
-  textDecoration: 'none', fontWeight: 700, fontSize: 14, color: 'oklch(0.95 0.008 30)',
+  textDecoration: 'none', fontWeight: 700, fontSize: 14, color: 'oklch(0.95 0.008 265)',
   border: '1px solid oklch(1 0 0 / 0.15)', padding: '12px 22px', borderRadius: 100,
 };

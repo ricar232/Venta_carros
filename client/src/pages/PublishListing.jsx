@@ -93,7 +93,7 @@ export default function PublishListing() {
 
   if (!session.token) {
     return (
-      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 265)', color: 'oklch(0.97 0.008 265)', minHeight: '100vh' }}>
         <Navbar />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 32px' }}>
           <div
@@ -101,7 +101,7 @@ export default function PublishListing() {
               width: '100%',
               maxWidth: 420,
               textAlign: 'center',
-              background: 'oklch(0.21 0.016 30 / 0.55)',
+              background: 'oklch(0.21 0.016 265 / 0.55)',
               border: '1px solid oklch(1 0 0 / 0.08)',
               borderRadius: 24,
               padding: 36,
@@ -109,7 +109,7 @@ export default function PublishListing() {
             }}
           >
             <h2 style={{ margin: '0 0 10px', fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26 }}>Inicia sesión para publicar</h2>
-            <p style={{ margin: '0 0 26px', fontSize: 14.5, color: 'oklch(0.68 0.015 30)' }}>Necesitas una cuenta VELTRA para publicar un anuncio.</p>
+            <p style={{ margin: '0 0 26px', fontSize: 14.5, color: 'oklch(0.68 0.015 265)' }}>Necesitas una cuenta VELTRA para publicar un anuncio.</p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <Link to="/login" style={ghostBtnStyle}>Iniciar sesión</Link>
               <Link to="/registro" style={primaryBtnStyle}>Crear cuenta</Link>
@@ -122,7 +122,7 @@ export default function PublishListing() {
 
   if (session.user?.status !== 'approved') {
     return (
-      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 265)', color: 'oklch(0.97 0.008 265)', minHeight: '100vh' }}>
         <Navbar />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 32px' }}>
           <div
@@ -130,7 +130,7 @@ export default function PublishListing() {
               width: '100%',
               maxWidth: 420,
               textAlign: 'center',
-              background: 'oklch(0.21 0.016 30 / 0.55)',
+              background: 'oklch(0.21 0.016 265 / 0.55)',
               border: '1px solid oklch(1 0 0 / 0.08)',
               borderRadius: 24,
               padding: 36,
@@ -138,7 +138,7 @@ export default function PublishListing() {
             }}
           >
             <h2 style={{ margin: '0 0 10px', fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26 }}>Tu cuenta está pendiente de aprobación</h2>
-            <p style={{ margin: 0, fontSize: 14.5, color: 'oklch(0.68 0.015 30)' }}>
+            <p style={{ margin: 0, fontSize: 14.5, color: 'oklch(0.68 0.015 265)' }}>
               Un administrador tiene que aprobar tu cuenta antes de que puedas publicar anuncios. Esto es para garantizar la autenticidad de los vendedores en VELTRA.
             </p>
           </div>
@@ -149,7 +149,7 @@ export default function PublishListing() {
 
   if (createdCar) {
     return (
-      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 265)', color: 'oklch(0.97 0.008 265)', minHeight: '100vh' }}>
         <Navbar />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 32px' }}>
           <div
@@ -157,7 +157,7 @@ export default function PublishListing() {
               width: '100%',
               maxWidth: 420,
               textAlign: 'center',
-              background: 'oklch(0.21 0.016 30 / 0.55)',
+              background: 'oklch(0.21 0.016 265 / 0.55)',
               border: '1px solid oklch(1 0 0 / 0.08)',
               borderRadius: 24,
               padding: 36,
@@ -167,15 +167,15 @@ export default function PublishListing() {
             <div
               style={{
                 width: 56, height: 56, borderRadius: '50%',
-                background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+                background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px',
-                fontSize: 24, color: 'oklch(0.14 0.012 30)',
+                fontSize: 24, color: 'oklch(0.14 0.012 265)',
               }}
             >
               ✓
             </div>
             <h2 style={{ margin: '0 0 10px', fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26 }}>Anuncio publicado</h2>
-            <p style={{ margin: '0 0 26px', fontSize: 14.5, color: 'oklch(0.68 0.015 30)' }}>
+            <p style={{ margin: '0 0 26px', fontSize: 14.5, color: 'oklch(0.68 0.015 265)' }}>
               {createdCar.make} {createdCar.model} ya está en el catálogo.
             </p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
@@ -189,11 +189,11 @@ export default function PublishListing() {
   }
 
   return (
-    <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+    <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 265)', color: 'oklch(0.97 0.008 265)', minHeight: '100vh' }}>
       <Navbar />
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '60px 32px 100px' }}>
         <h1 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 36, margin: '0 0 8px' }}>Publica tu auto</h1>
-        <p style={{ fontSize: 14.5, color: 'oklch(0.68 0.015 30)', margin: '0 0 32px' }}>
+        <p style={{ fontSize: 14.5, color: 'oklch(0.68 0.015 265)', margin: '0 0 32px' }}>
           Los datos del vendedor se toman de tu cuenta. Agrega al menos una foto real de tu auto.
         </p>
 
@@ -201,7 +201,7 @@ export default function PublishListing() {
           onSubmit={handleSubmit}
           style={{
             display: 'flex', flexDirection: 'column', gap: 14,
-            background: 'oklch(0.21 0.016 30 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)',
+            background: 'oklch(0.21 0.016 265 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)',
             borderRadius: 24, padding: 32, backdropFilter: 'blur(20px)',
           }}
         >
@@ -273,9 +273,9 @@ export default function PublishListing() {
                     onClick={() => setField('transmission', t)}
                     style={{
                       flex: 1, padding: 11, borderRadius: 10, fontSize: 13.5, fontWeight: 700, cursor: 'pointer',
-                      border: `1px solid ${active ? 'oklch(0.72 0.17 55)' : 'oklch(1 0 0 / 0.12)'}`,
-                      background: active ? 'oklch(0.72 0.17 55 / 0.18)' : 'transparent',
-                      color: active ? 'oklch(0.85 0.13 55)' : 'oklch(0.75 0.015 30)',
+                      border: `1px solid ${active ? 'oklch(0.72 0.17 200)' : 'oklch(1 0 0 / 0.12)'}`,
+                      background: active ? 'oklch(0.72 0.17 200 / 0.18)' : 'transparent',
+                      color: active ? 'oklch(0.85 0.13 200)' : 'oklch(0.75 0.015 265)',
                     }}
                   >
                     {t}
@@ -310,7 +310,7 @@ export default function PublishListing() {
                   style={{
                     height: 84, borderRadius: 10, border: '1.5px dashed oklch(1 0 0 / 0.2)', cursor: 'pointer',
                     display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                    color: 'oklch(0.65 0.015 30)', fontSize: 12, gap: 4,
+                    color: 'oklch(0.65 0.015 265)', fontSize: 12, gap: 4,
                   }}
                 >
                   <span style={{ fontSize: 20 }}>+</span>
@@ -333,8 +333,8 @@ export default function PublishListing() {
             className="veltra-submit-btn"
             style={{
               marginTop: 6, width: '100%', padding: 14, borderRadius: 12, border: 'none',
-              background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
-              color: 'oklch(0.14 0.012 30)', fontWeight: 800, fontSize: 15, cursor: 'pointer',
+              background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
+              color: 'oklch(0.14 0.012 265)', fontWeight: 800, fontSize: 15, cursor: 'pointer',
               opacity: submitting ? 0.7 : 1, transition: 'transform .2s ease, box-shadow .2s ease',
             }}
           >
@@ -346,13 +346,13 @@ export default function PublishListing() {
   );
 }
 
-const labelStyle = { display: 'block', fontSize: 12.5, fontWeight: 700, color: 'oklch(0.68 0.015 30)', marginBottom: 6 };
+const labelStyle = { display: 'block', fontSize: 12.5, fontWeight: 700, color: 'oklch(0.68 0.015 265)', marginBottom: 6 };
 
 const inputStyle = {
   width: '100%',
-  background: 'oklch(0.16 0.014 30)',
+  background: 'oklch(0.16 0.014 265)',
   border: '1px solid oklch(1 0 0 / 0.12)',
-  color: 'oklch(0.95 0.008 30)',
+  color: 'oklch(0.95 0.008 265)',
   fontFamily: "'Manrope', sans-serif",
   fontSize: 14,
   padding: '12px 14px',
@@ -360,12 +360,12 @@ const inputStyle = {
 };
 
 const primaryBtnStyle = {
-  textDecoration: 'none', fontWeight: 700, fontSize: 14, color: 'oklch(0.14 0.012 30)',
-  background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+  textDecoration: 'none', fontWeight: 700, fontSize: 14, color: 'oklch(0.14 0.012 265)',
+  background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
   padding: '12px 22px', borderRadius: 100,
 };
 
 const ghostBtnStyle = {
-  textDecoration: 'none', fontWeight: 700, fontSize: 14, color: 'oklch(0.95 0.008 30)',
+  textDecoration: 'none', fontWeight: 700, fontSize: 14, color: 'oklch(0.95 0.008 265)',
   border: '1px solid oklch(1 0 0 / 0.15)', padding: '12px 22px', borderRadius: 100,
 };

@@ -36,8 +36,8 @@ export default function Login() {
     <div
       style={{
         fontFamily: "'Manrope', sans-serif",
-        background: 'oklch(0.16 0.014 30)',
-        color: 'oklch(0.97 0.008 30)',
+        background: 'oklch(0.16 0.014 265)',
+        color: 'oklch(0.97 0.008 265)',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -50,7 +50,7 @@ export default function Login() {
           style={{
             width: '100%',
             maxWidth: 420,
-            background: 'oklch(0.21 0.016 30 / 0.55)',
+            background: 'oklch(0.21 0.016 265 / 0.55)',
             border: '1px solid oklch(1 0 0 / 0.08)',
             borderRadius: 24,
             padding: 36,
@@ -60,13 +60,13 @@ export default function Login() {
           <h2 style={{ margin: '0 0 6px', fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 28, textAlign: 'center' }}>
             Bienvenido de vuelta
           </h2>
-          <p style={{ margin: '0 0 28px', fontSize: 13.5, color: 'oklch(0.6 0.015 30)', textAlign: 'center' }}>
+          <p style={{ margin: '0 0 28px', fontSize: 13.5, color: 'oklch(0.6 0.015 265)', textAlign: 'center' }}>
             Inicia sesión para publicar y administrar tus anuncios.
           </p>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div>
-              <label style={{ display: 'block', fontSize: 12.5, fontWeight: 700, color: 'oklch(0.68 0.015 30)', marginBottom: 6 }}>
+              <label style={{ display: 'block', fontSize: 12.5, fontWeight: 700, color: 'oklch(0.68 0.015 265)', marginBottom: 6 }}>
                 Correo electrónico
               </label>
               <input
@@ -79,7 +79,7 @@ export default function Login() {
               />
             </div>
             <div>
-              <label style={{ display: 'block', fontSize: 12.5, fontWeight: 700, color: 'oklch(0.68 0.015 30)', marginBottom: 6 }}>
+              <label style={{ display: 'block', fontSize: 12.5, fontWeight: 700, color: 'oklch(0.68 0.015 265)', marginBottom: 6 }}>
                 Contraseña
               </label>
               <input
@@ -111,9 +111,9 @@ export default function Login() {
               <p
                 style={{
                   fontSize: 13,
-                  color: 'oklch(0.72 0.17 55)',
-                  background: 'oklch(0.72 0.17 55 / 0.12)',
-                  border: '1px solid oklch(0.72 0.17 55 / 0.35)',
+                  color: 'oklch(0.72 0.17 200)',
+                  background: 'oklch(0.72 0.17 200 / 0.12)',
+                  border: '1px solid oklch(0.72 0.17 200 / 0.35)',
                   padding: '10px 14px',
                   borderRadius: 10,
                   margin: 0,
@@ -133,8 +133,8 @@ export default function Login() {
                 padding: 14,
                 borderRadius: 12,
                 border: 'none',
-                background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
-                color: 'oklch(0.14 0.012 30)',
+                background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
+                color: 'oklch(0.14 0.012 265)',
                 fontWeight: 800,
                 fontSize: 15,
                 cursor: 'pointer',
@@ -153,9 +153,9 @@ export default function Login() {
 
 const inputStyle = {
   width: '100%',
-  background: 'oklch(0.16 0.014 30)',
+  background: 'oklch(0.16 0.014 265)',
   border: '1px solid oklch(1 0 0 / 0.12)',
-  color: 'oklch(0.95 0.008 30)',
+  color: 'oklch(0.95 0.008 265)',
   fontFamily: "'Manrope', sans-serif",
   fontSize: 14,
   padding: '12px 14px',

@@ -62,7 +62,7 @@ export default function VehicleDetail() {
 
   const placeholder = {
     make: '', model: '', year: '', mileageFmt: '', city: '', priceFmt: '', transmission: '', fuel: '', color: '', doors: '',
-    g1: 'oklch(0.4 0.05 30)', g2: 'oklch(0.3 0.05 30)', verified: false, seller: '', sellerTypeLabel: '', sellerInitial: '', rating: '', photos: [],
+    g1: 'oklch(0.4 0.05 265)', g2: 'oklch(0.3 0.05 265)', verified: false, seller: '', sellerTypeLabel: '', sellerInitial: '', rating: '', photos: [],
     sellerTier: 'bronce', sellerRatingAvg: 0, sellerRatingCount: 0,
   };
   const displayCar = car || placeholder;
@@ -74,11 +74,11 @@ export default function VehicleDetail() {
     : 'Mostrar teléfono';
 
   return (
-    <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+    <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 265)', color: 'oklch(0.97 0.008 265)', minHeight: '100vh' }}>
       <Navbar />
 
       <div style={{ maxWidth: 1400, margin: '0 auto', padding: '28px 32px 0' }}>
-        <Link to="/catalogo" style={{ textDecoration: 'none', color: 'oklch(0.65 0.015 30)', fontSize: 13.5, fontWeight: 600 }}>
+        <Link to="/catalogo" style={{ textDecoration: 'none', color: 'oklch(0.65 0.015 265)', fontSize: 13.5, fontWeight: 600 }}>
           ← Volver al catálogo
         </Link>
       </div>
@@ -86,7 +86,7 @@ export default function VehicleDetail() {
       {notFound && (
         <div style={{ maxWidth: 1400, margin: '0 auto', padding: '100px 32px', textAlign: 'center' }}>
           <p style={{ fontFamily: "'Instrument Serif', serif", fontSize: 32, margin: '0 0 10px' }}>Anuncio no encontrado</p>
-          <p style={{ fontSize: 15, color: 'oklch(0.65 0.015 30)', margin: 0 }}>Revisa que el id en la URL sea correcto o que el backend tenga ese anuncio.</p>
+          <p style={{ fontSize: 15, color: 'oklch(0.65 0.015 265)', margin: 0 }}>Revisa que el id en la URL sea correcto o que el backend tenga ese anuncio.</p>
         </div>
       )}
 
@@ -140,8 +140,8 @@ export default function VehicleDetail() {
                       fontFamily: "'Manrope', sans-serif",
                       fontSize: 12,
                       fontWeight: 700,
-                      color: 'oklch(0.14 0.012 30)',
-                      background: 'oklch(0.72 0.17 55)',
+                      color: 'oklch(0.14 0.012 265)',
+                      background: 'oklch(0.72 0.17 200)',
                       padding: '6px 12px 6px 9px',
                       borderRadius: 100,
                       display: 'flex',
@@ -149,7 +149,7 @@ export default function VehicleDetail() {
                       gap: 5,
                     }}
                   >
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="oklch(0.14 0.012 30)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="oklch(0.14 0.012 265)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z" />
                       <path d="M9 12l2 2 4-4" />
                     </svg>
@@ -168,7 +168,7 @@ export default function VehicleDetail() {
                       height: 70,
                       borderRadius: 12,
                       overflow: 'hidden',
-                      border: `2px solid ${i === activeThumb ? 'oklch(0.72 0.17 55)' : 'transparent'}`,
+                      border: `2px solid ${i === activeThumb ? 'oklch(0.72 0.17 200)' : 'transparent'}`,
                       cursor: 'pointer',
                       padding: 0,
                       opacity: i === activeThumb ? 1 : 0.55,
@@ -185,11 +185,11 @@ export default function VehicleDetail() {
                 <h1 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 40, margin: '0 0 8px' }}>
                   {displayCar.make} {displayCar.model}
                 </h1>
-                <p style={{ fontSize: 15, color: 'oklch(0.68 0.015 30)', margin: 0 }}>
+                <p style={{ fontSize: 15, color: 'oklch(0.68 0.015 265)', margin: 0 }}>
                   {displayCar.year} · {displayCar.mileageFmt} mi · {displayCar.city}
                 </p>
               </div>
-              <p style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 38, color: 'oklch(0.72 0.17 55)', margin: 0, whiteSpace: 'nowrap' }}>
+              <p style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontSize: 38, color: 'oklch(0.72 0.17 200)', margin: 0, whiteSpace: 'nowrap' }}>
                 {displayCar.priceFmt}
               </p>
             </div>
@@ -201,8 +201,8 @@ export default function VehicleDetail() {
                 ['Color', displayCar.color],
                 ['Puertas', displayCar.doors],
               ].map(([label, value]) => (
-                <div key={label} style={{ padding: 18, borderRadius: 16, background: 'oklch(0.21 0.016 30 / 0.5)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
-                  <p style={{ margin: 0, fontSize: 11.5, textTransform: 'uppercase', letterSpacing: '.05em', color: 'oklch(0.58 0.015 30)' }}>{label}</p>
+                <div key={label} style={{ padding: 18, borderRadius: 16, background: 'oklch(0.21 0.016 265 / 0.5)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
+                  <p style={{ margin: 0, fontSize: 11.5, textTransform: 'uppercase', letterSpacing: '.05em', color: 'oklch(0.58 0.015 265)' }}>{label}</p>
                   <p style={{ margin: '6px 0 0', fontWeight: 700, fontSize: 15 }}>{value}</p>
                 </div>
               ))}
@@ -210,20 +210,20 @@ export default function VehicleDetail() {
 
             <div style={{ marginTop: 40 }}>
               <h2 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26, margin: '0 0 14px' }}>Descripción</h2>
-              <p style={{ fontSize: 15, lineHeight: 1.7, color: 'oklch(0.75 0.015 30)', margin: 0 }}>
+              <p style={{ fontSize: 15, lineHeight: 1.7, color: 'oklch(0.75 0.015 265)', margin: 0 }}>
                 {displayCar.make} {displayCar.model} {displayCar.year} en excelente estado, con {displayCar.mileageFmt} millas recorridas. Vehículo{' '}
                 {displayCar.sellerTypeLabel}, listo para revisión física y prueba de manejo en {displayCar.city}. Historial de mantenimiento disponible bajo
                 solicitud.
               </p>
             </div>
 
-            <div id="financiamiento" style={{ marginTop: 44, padding: 30, borderRadius: 24, background: 'oklch(0.21 0.016 30 / 0.5)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
+            <div id="financiamiento" style={{ marginTop: 44, padding: 30, borderRadius: 24, background: 'oklch(0.21 0.016 265 / 0.5)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
               <h2 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26, margin: '0 0 22px' }}>Calculadora de financiamiento</h2>
               <div className="veltra-split-panel" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 28 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                      <span style={{ fontSize: 13.5, color: 'oklch(0.68 0.015 30)', fontWeight: 600 }}>Enganche</span>
+                      <span style={{ fontSize: 13.5, color: 'oklch(0.68 0.015 265)', fontWeight: 600 }}>Enganche</span>
                       <span style={{ fontSize: 13.5, fontWeight: 700 }}>
                         {downFmt} ({down}%)
                       </span>
@@ -232,7 +232,7 @@ export default function VehicleDetail() {
                   </div>
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                      <span style={{ fontSize: 13.5, color: 'oklch(0.68 0.015 30)', fontWeight: 600 }}>Plazo</span>
+                      <span style={{ fontSize: 13.5, color: 'oklch(0.68 0.015 265)', fontWeight: 600 }}>Plazo</span>
                       <span style={{ fontSize: 13.5, fontWeight: 700 }}>{term} meses</span>
                     </div>
                     <select
@@ -240,9 +240,9 @@ export default function VehicleDetail() {
                       onChange={(e) => setTerm(Number(e.target.value))}
                       style={{
                         width: '100%',
-                        background: 'oklch(0.16 0.014 30)',
+                        background: 'oklch(0.16 0.014 265)',
                         border: '1px solid oklch(1 0 0 / 0.12)',
-                        color: 'oklch(0.95 0.008 30)',
+                        color: 'oklch(0.95 0.008 265)',
                         fontFamily: "'Manrope', sans-serif",
                         fontSize: 14,
                         padding: '10px 12px',
@@ -258,7 +258,7 @@ export default function VehicleDetail() {
                   </div>
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                      <span style={{ fontSize: 13.5, color: 'oklch(0.68 0.015 30)', fontWeight: 600 }}>Tasa anual estimada</span>
+                      <span style={{ fontSize: 13.5, color: 'oklch(0.68 0.015 265)', fontWeight: 600 }}>Tasa anual estimada</span>
                       <span style={{ fontSize: 13.5, fontWeight: 700 }}>{rate}%</span>
                     </div>
                     <input type="range" min={6} max={18} step={0.5} value={rate} onChange={(e) => setRate(Number(e.target.value))} style={{ width: '100%' }} />
@@ -266,7 +266,7 @@ export default function VehicleDetail() {
                 </div>
                 <div
                   style={{
-                    background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+                    background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
                     borderRadius: 18,
                     padding: 26,
                     display: 'flex',
@@ -276,11 +276,11 @@ export default function VehicleDetail() {
                     textAlign: 'center',
                   }}
                 >
-                  <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'oklch(0.2 0.02 30 / 0.8)', textTransform: 'uppercase', letterSpacing: '.06em' }}>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'oklch(0.2 0.02 265 / 0.8)', textTransform: 'uppercase', letterSpacing: '.06em' }}>
                     Mensualidad estimada
                   </p>
-                  <p style={{ margin: '10px 0 0', fontFamily: "'Instrument Serif', serif", fontSize: 48, color: 'oklch(0.14 0.012 30)' }}>{monthlyFmt}</p>
-                  <p style={{ margin: '8px 0 0', fontSize: 12.5, color: 'oklch(0.2 0.02 30 / 0.75)' }}>
+                  <p style={{ margin: '10px 0 0', fontFamily: "'Instrument Serif', serif", fontSize: 48, color: 'oklch(0.14 0.012 265)' }}>{monthlyFmt}</p>
+                  <p style={{ margin: '8px 0 0', fontSize: 12.5, color: 'oklch(0.2 0.02 265 / 0.75)' }}>
                     Financiando {financedFmt} a {term} meses
                   </p>
                 </div>
@@ -298,7 +298,7 @@ export default function VehicleDetail() {
           </div>
 
           <aside style={{ position: 'sticky', top: 94, display: 'flex', flexDirection: 'column', gap: 18 }}>
-            <div style={{ padding: 26, borderRadius: 20, background: 'oklch(0.21 0.016 30 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)', backdropFilter: 'blur(20px)' }}>
+            <div style={{ padding: 26, borderRadius: 20, background: 'oklch(0.21 0.016 265 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)', backdropFilter: 'blur(20px)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
                 <TierFrame tier={displayCar.sellerTier}>
                   <div
@@ -306,13 +306,13 @@ export default function VehicleDetail() {
                       width: '100%',
                       height: '100%',
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+                      background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       fontFamily: "'Instrument Serif', serif",
                       fontSize: 22,
-                      color: 'oklch(0.14 0.012 30)',
+                      color: 'oklch(0.14 0.012 265)',
                     }}
                   >
                     {displayCar.sellerInitial}
@@ -320,7 +320,7 @@ export default function VehicleDetail() {
                 </TierFrame>
                 <div>
                   <p style={{ margin: 0, fontWeight: 700, fontSize: 15 }}>{displayCar.seller}</p>
-                  <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'oklch(0.62 0.015 30)' }}>
+                  <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'oklch(0.62 0.015 265)' }}>
                     {displayCar.sellerTypeLabel} · ★ {displayCar.sellerRatingAvg.toFixed(1)} ({displayCar.sellerRatingCount})
                   </p>
                   <div style={{ marginTop: 6 }}>
@@ -329,8 +329,8 @@ export default function VehicleDetail() {
                 </div>
               </div>
               {displayCar.verified && (
-                <p style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, fontWeight: 700, color: 'oklch(0.72 0.17 55)', margin: '0 0 18px' }}>
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="oklch(0.72 0.17 55)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <p style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, fontWeight: 700, color: 'oklch(0.72 0.17 200)', margin: '0 0 18px' }}>
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="oklch(0.72 0.17 200)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z" />
                     <path d="M9 12l2 2 4-4" />
                   </svg>
@@ -344,8 +344,8 @@ export default function VehicleDetail() {
                   padding: 14,
                   borderRadius: 12,
                   border: 'none',
-                  background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
-                  color: 'oklch(0.14 0.012 30)',
+                  background: 'linear-gradient(135deg, oklch(0.63 0.20 275), oklch(0.72 0.17 200))',
+                  color: 'oklch(0.14 0.012 265)',
                   fontWeight: 800,
                   fontSize: 14.5,
                   cursor: 'pointer',
@@ -361,7 +361,7 @@ export default function VehicleDetail() {
                   borderRadius: 12,
                   border: '1px solid oklch(1 0 0 / 0.15)',
                   background: 'transparent',
-                  color: 'oklch(0.95 0.008 30)',
+                  color: 'oklch(0.95 0.008 265)',
                   fontWeight: 700,
                   fontSize: 14.5,
                   cursor: 'pointer',
@@ -371,7 +371,7 @@ export default function VehicleDetail() {
               </button>
             </div>
 
-            <div style={{ padding: 26, borderRadius: 20, background: 'oklch(0.21 0.016 30 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
+            <div style={{ padding: 26, borderRadius: 20, background: 'oklch(0.21 0.016 265 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)' }}>
               <h3 style={{ margin: '0 0 16px', fontFamily: "'Instrument Serif', serif", fontSize: 18 }}>Agenda una visita</h3>
               <input type="text" placeholder="Tu nombre" style={sidebarInputStyle} />
               <input type="text" placeholder="Teléfono" style={sidebarInputStyle} />
@@ -381,9 +381,9 @@ export default function VehicleDetail() {
                   width: '100%',
                   padding: 13,
                   borderRadius: 12,
-                  border: '1px solid oklch(0.72 0.17 55 / 0.5)',
-                  background: 'oklch(0.72 0.17 55 / 0.12)',
-                  color: 'oklch(0.85 0.13 55)',
+                  border: '1px solid oklch(0.72 0.17 200 / 0.5)',
+                  background: 'oklch(0.72 0.17 200 / 0.12)',
+                  color: 'oklch(0.85 0.13 200)',
                   fontWeight: 700,
                   fontSize: 14,
                   cursor: 'pointer',
@@ -401,9 +401,9 @@ export default function VehicleDetail() {
 
 const sidebarInputStyle = {
   width: '100%',
-  background: 'oklch(0.16 0.014 30)',
+  background: 'oklch(0.16 0.014 265)',
   border: '1px solid oklch(1 0 0 / 0.12)',
-  color: 'oklch(0.95 0.008 30)',
+  color: 'oklch(0.95 0.008 265)',
   fontFamily: "'Manrope', sans-serif",
   fontSize: 13.5,
   padding: '11px 13px',

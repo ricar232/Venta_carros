@@ -4,17 +4,17 @@
 
 body {
   margin: 0;
-  background: oklch(0.16 0.014 30);
+  background: oklch(0.16 0.014 265);
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: oklch(0.5 0.015 30);
+  color: oklch(0.5 0.015 265);
 }
 
 input[type='range'] {
   -webkit-appearance: none;
-  accent-color: oklch(0.72 0.17 55);
+  accent-color: oklch(0.72 0.17 200);
   height: 5px;
   border-radius: 100px;
   background: oklch(1 0 0 / 0.12);
@@ -32,8 +32,8 @@ input[type='range']::-webkit-slider-thumb {
   width: 17px;
   height: 17px;
   border-radius: 50%;
-  background: oklch(0.97 0.01 55);
-  border: 3px solid oklch(0.72 0.17 55);
+  background: oklch(0.97 0.01 200);
+  border: 3px solid oklch(0.72 0.17 200);
   cursor: pointer;
   margin-top: -6px;
   box-shadow: 0 2px 8px oklch(0 0 0 / 0.4);
@@ -49,8 +49,8 @@ input[type='range']::-moz-range-thumb {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: oklch(0.97 0.01 55);
-  border: 3px solid oklch(0.72 0.17 55);
+  background: oklch(0.97 0.01 200);
+  border: 3px solid oklch(0.72 0.17 200);
   cursor: pointer;
   box-shadow: 0 2px 8px oklch(0 0 0 / 0.4);
 }
@@ -63,7 +63,7 @@ input[type='range']::-moz-range-thumb {
   height: 19px;
   border-radius: 6px;
   border: 1.5px solid oklch(1 0 0 / 0.2);
-  background: oklch(0.16 0.014 30);
+  background: oklch(0.16 0.014 265);
   display: inline-grid;
   place-content: center;
   cursor: pointer;
@@ -71,10 +71,10 @@ input[type='range']::-moz-range-thumb {
   transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
 }
 .veltra-checkbox:hover {
-  border-color: oklch(0.72 0.17 55 / 0.6);
+  border-color: oklch(0.72 0.17 200 / 0.6);
 }
 .veltra-checkbox:checked {
-  background: linear-gradient(135deg, oklch(0.63 0.2 25), oklch(0.72 0.17 55));
+  background: linear-gradient(135deg, oklch(0.63 0.2 275), oklch(0.72 0.17 200));
   border-color: transparent;
 }
 .veltra-checkbox::before {
@@ -83,7 +83,7 @@ input[type='range']::-moz-range-thumb {
   height: 10px;
   transform: scale(0);
   transition: transform 0.12s ease;
-  box-shadow: inset 1em 1em oklch(0.14 0.012 30);
+  box-shadow: inset 1em 1em oklch(0.14 0.012 265);
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 45% 62%);
 }
 .veltra-checkbox:checked::before {
@@ -94,7 +94,7 @@ input[type='range']::-moz-range-thumb {
 .veltra-select {
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23c9beb8' stroke-width='2'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23b8c0cc' stroke-width='2'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
   background-size: 15px;
@@ -102,7 +102,7 @@ input[type='range']::-moz-range-thumb {
 }
 .veltra-select:focus {
   outline: none;
-  border-color: oklch(0.72 0.17 55 / 0.6) !important;
+  border-color: oklch(0.72 0.17 200 / 0.6) !important;
 }
 
 @keyframes marqueeScroll {
@@ -201,18 +201,18 @@ input[type='range']::-moz-range-thumb {
 
 .veltra-cta:hover {
   transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 12px 30px -6px oklch(0.63 0.2 25 / 0.8);
+  box-shadow: 0 12px 30px -6px oklch(0.63 0.2 275 / 0.8);
 }
 
 .veltra-search-btn:hover {
   transform: scale(1.045);
-  box-shadow: 0 10px 28px -8px oklch(0.63 0.2 25 / 0.7);
+  box-shadow: 0 10px 28px -8px oklch(0.63 0.2 275 / 0.7);
 }
 
 .veltra-category-card:hover {
-  border-color: oklch(0.63 0.2 25 / 0.5);
+  border-color: oklch(0.63 0.2 275 / 0.5);
   transform: translateY(-4px);
-  background: oklch(0.23 0.018 30 / 0.65);
+  background: oklch(0.23 0.018 265 / 0.65);
 }
 
 .veltra-cta-banner-btn:hover {
@@ -222,13 +222,13 @@ input[type='range']::-moz-range-thumb {
 
 .veltra-submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 14px 30px -8px oklch(0.63 0.2 25 / 0.7);
+  box-shadow: 0 14px 30px -8px oklch(0.63 0.2 275 / 0.7);
 }
 
 .veltra-car-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 28px 70px -14px oklch(0 0 0 / 0.7);
-  border-color: oklch(0.63 0.2 25 / 0.55);
+  border-color: oklch(0.63 0.2 275 / 0.55);
 }
 
 .veltra-car-card:hover .veltra-car-card-photo-tint {
@@ -314,7 +314,7 @@ html, body {
   flex-direction: column;
   gap: 4px;
   padding: 16px 24px 24px;
-  background: oklch(0.14 0.012 30);
+  background: oklch(0.14 0.012 265);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid oklch(1 0 0 / 0.08);
