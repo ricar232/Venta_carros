@@ -6,6 +6,8 @@ import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import PublishListing from './pages/PublishListing.jsx';
 import MyListings from './pages/MyListings.jsx';
+import MyPurchases from './pages/MyPurchases.jsx';
+import AdminDashboard from './pages/AdminDashboard.jsx';
 
 export default function App() {
   return (
@@ -17,6 +19,8 @@ export default function App() {
       <Route path="/registro" element={<Register />} />
       <Route path="/publicar" element={<PublishListing />} />
       <Route path="/mis-anuncios" element={<MyListings />} />
+      <Route path="/mis-compras" element={<MyPurchases />} />
+      <Route path="/admin" element={<AdminDashboard />} />
     </Routes>
   );
 }

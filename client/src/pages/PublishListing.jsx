@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
-import { getSession } from '../lib/auth.js';
+import { getSession, refreshSession } from '../lib/auth.js';
 import { createCar } from '../lib/carsApi.js';
 
 const TYPES = ['SUV', 'Sedán', 'Pickup', 'Deportivo', 'Eléctrico'];
@@ -16,12 +16,20 @@ const initialFields = {
 };
 
 export default function PublishListing() {
-  const session = getSession();
+  const [session, setSession] = useState(getSession());
   const [fields, setFields] = useState(initialFields);
   const [photos, setPhotos] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [createdCar, setCreatedCar] = useState(null);
+
+  useEffect(() => {
+    if (!session.token) return;
+    refreshSession(session.token).then((user) => {
+      if (user) setSession((s) => ({ ...s, user }));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function setField(key, value) {
     setFields((f) => ({ ...f, [key]: value }));
@@ -106,6 +114,33 @@ export default function PublishListing() {
               <Link to="/login" style={ghostBtnStyle}>Iniciar sesión</Link>
               <Link to="/registro" style={primaryBtnStyle}>Crear cuenta</Link>
             </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (session.user?.status !== 'approved') {
+    return (
+      <div style={{ fontFamily: "'Manrope', sans-serif", background: 'oklch(0.16 0.014 30)', color: 'oklch(0.97 0.008 30)', minHeight: '100vh' }}>
+        <Navbar />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '100px 32px' }}>
+          <div
+            style={{
+              width: '100%',
+              maxWidth: 420,
+              textAlign: 'center',
+              background: 'oklch(0.21 0.016 30 / 0.55)',
+              border: '1px solid oklch(1 0 0 / 0.08)',
+              borderRadius: 24,
+              padding: 36,
+              backdropFilter: 'blur(20px)',
+            }}
+          >
+            <h2 style={{ margin: '0 0 10px', fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 26 }}>Tu cuenta está pendiente de aprobación</h2>
+            <p style={{ margin: 0, fontSize: 14.5, color: 'oklch(0.68 0.015 30)' }}>
+              Un administrador tiene que aprobar tu cuenta antes de que puedas publicar anuncios. Esto es para garantizar la autenticidad de los vendedores en VELTRA.
+            </p>
           </div>
         </div>
       </div>

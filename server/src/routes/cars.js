@@ -3,8 +3,9 @@ import path from 'node:path';
 import { Router } from 'express';
 import multer from 'multer';
 import { db } from '../db.js';
-import { requireAuth } from '../middleware/auth.js';
+import { requireAuth, requireApproved } from '../middleware/auth.js';
 import { uploadCarPhotos, carPhotosDir } from '../middleware/upload.js';
+import { sellerRatingStats } from '../tier.js';
 
 const router = Router();
 
@@ -56,7 +57,22 @@ function toApiShape(row) {
     g2: row.g2,
     photos: JSON.parse(row.photos || '[]').map((f) => `/uploads/cars/${f}`),
     ownerUserId: row.owner_user_id,
+    ...(() => {
+      const stats = sellerRatingStats(db, row.owner_user_id);
+      return { sellerTier: stats.tier, sellerRatingAvg: stats.avg, sellerRatingCount: stats.count };
+    })(),
   };
+}
+
+function deleteCarRow(row) {
+  JSON.parse(row.photos || '[]').forEach((filename) => {
+    try {
+      fs.unlinkSync(path.join(carPhotosDir, filename));
+    } catch {
+      // el archivo ya no está — no es un error real
+    }
+  });
+  db.prepare('DELETE FROM cars WHERE id = ?').run(row.id);
 }
 
 router.get('/', (req, res) => {
@@ -64,7 +80,7 @@ router.get('/', (req, res) => {
   res.json(rows.map(toApiShape));
 });
 
-router.post('/', requireAuth, handlePhotoUpload, (req, res) => {
+router.post('/', requireAuth, requireApproved, handlePhotoUpload, (req, res) => {
   const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.userId);
   if (!user) return res.status(401).json({ message: 'Sesión inválida.' });
 
@@ -113,20 +129,46 @@ router.post('/', requireAuth, handlePhotoUpload, (req, res) => {
 router.delete('/:id', requireAuth, (req, res) => {
   const row = db.prepare('SELECT * FROM cars WHERE id = ?').get(req.params.id);
   if (!row) return res.status(404).json({ message: 'Anuncio no encontrado.' });
-  if (Number(row.owner_user_id) !== Number(req.userId)) {
+
+  const requester = db.prepare('SELECT role FROM users WHERE id = ?').get(req.userId);
+  const isOwner = Number(row.owner_user_id) === Number(req.userId);
+  const isAdmin = requester?.role === 'admin';
+  if (!isOwner && !isAdmin) {
     return res.status(403).json({ message: 'No podés eliminar un anuncio que no es tuyo.' });
   }
 
-  JSON.parse(row.photos || '[]').forEach((filename) => {
-    try {
-      fs.unlinkSync(path.join(carPhotosDir, filename));
-    } catch {
-      // el archivo ya no está — no es un error real
-    }
-  });
-
-  db.prepare('DELETE FROM cars WHERE id = ?').run(row.id);
+  deleteCarRow(row);
   res.status(204).end();
+});
+
+router.post('/:id/sold', requireAuth, (req, res) => {
+  const row = db.prepare('SELECT * FROM cars WHERE id = ?').get(req.params.id);
+  if (!row) return res.status(404).json({ message: 'Anuncio no encontrado.' });
+  if (Number(row.owner_user_id) !== Number(req.userId)) {
+    return res.status(403).json({ message: 'No podés marcar como vendido un anuncio que no es tuyo.' });
+  }
+
+  const { buyerEmail } = req.body || {};
+  if (!buyerEmail) {
+    return res.status(400).json({ message: 'Indicá el correo del comprador.' });
+  }
+  const buyer = db.prepare('SELECT id FROM users WHERE email = ?').get(buyerEmail);
+  if (!buyer) {
+    return res.status(404).json({ message: 'Ese correo no está registrado en VELTRA.' });
+  }
+  if (Number(buyer.id) === Number(req.userId)) {
+    return res.status(400).json({ message: 'No podés marcarte a vos mismo como comprador.' });
+  }
+
+  db.prepare('INSERT INTO purchases (seller_id, buyer_id, car_make, car_model) VALUES (?, ?, ?, ?)').run(
+    req.userId,
+    buyer.id,
+    row.make,
+    row.model
+  );
+
+  deleteCarRow(row);
+  res.status(200).json({ message: 'Anuncio marcado como vendido.' });
 });
 
 export default router;

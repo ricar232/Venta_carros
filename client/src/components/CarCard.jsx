@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { TierChip } from './TierBadge.jsx';
 
 export default function CarCard({ car }) {
   return (
@@ -56,7 +57,8 @@ export default function CarCard({ car }) {
           </>
         )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, oklch(1 0 0 / 0.1), transparent 40%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 6 }}>
+        <div style={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 6, flexWrap: 'wrap', maxWidth: 'calc(100% - 90px)' }}>
+          {car.sellerTier && <TierChip tier={car.sellerTier} />}
           {car.verified && (
             <span
               style={{

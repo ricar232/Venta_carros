@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import { getSession } from '../lib/auth.js';
-import { fetchCars, formatPrice, deleteCar } from '../lib/carsApi.js';
+import { fetchCars, formatPrice, deleteCar, markAsSold } from '../lib/carsApi.js';
 
 export default function MyListings() {
   const session = getSession();
@@ -10,6 +10,9 @@ export default function MyListings() {
   const [loaded, setLoaded] = useState(false);
   const [confirmingId, setConfirmingId] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+  const [sellingId, setSellingId] = useState(null);
+  const [buyerEmail, setBuyerEmail] = useState('');
+  const [sellBusyId, setSellBusyId] = useState(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -36,6 +39,22 @@ export default function MyListings() {
       .catch((err) => {
         setError(err.message);
         setDeletingId(null);
+      });
+  }
+
+  function handleMarkSold(id) {
+    setSellBusyId(id);
+    setError('');
+    markAsSold(id, buyerEmail, session.token)
+      .then(() => {
+        setCars((prev) => prev.filter((c) => c.id !== id));
+        setSellingId(null);
+        setSellBusyId(null);
+        setBuyerEmail('');
+      })
+      .catch((err) => {
+        setError(err.message);
+        setSellBusyId(null);
       });
   }
 
@@ -153,11 +172,46 @@ export default function MyListings() {
                     Cancelar
                   </button>
                 </div>
+              ) : sellingId === car.id ? (
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
+                  <input
+                    type="email"
+                    value={buyerEmail}
+                    onChange={(e) => setBuyerEmail(e.target.value)}
+                    placeholder="Correo del comprador"
+                    style={{
+                      background: 'oklch(0.16 0.014 30)', border: '1px solid oklch(1 0 0 / 0.15)', color: 'oklch(0.95 0.008 30)',
+                      fontFamily: "'Manrope', sans-serif", fontSize: 13, padding: '8px 12px', borderRadius: 100, width: 190,
+                    }}
+                  />
+                  <button
+                    type="button"
+                    disabled={sellBusyId === car.id || !buyerEmail}
+                    onClick={() => handleMarkSold(car.id)}
+                    style={{ background: 'oklch(0.72 0.17 55)', border: 'none', color: 'oklch(0.14 0.012 30)', fontWeight: 700, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
+                  >
+                    {sellBusyId === car.id ? 'Confirmando…' : 'Confirmar venta'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setSellingId(null); setBuyerEmail(''); }}
+                    style={{ background: 'none', border: '1px solid oklch(1 0 0 / 0.15)', color: 'oklch(0.85 0.01 30)', fontWeight: 600, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
+                  >
+                    Cancelar
+                  </button>
+                </div>
               ) : (
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
                   <Link to={`/vehiculo/${car.id}`} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 13, fontWeight: 700, border: '1px solid oklch(1 0 0 / 0.15)', padding: '8px 14px', borderRadius: 100 }}>
                     Ver
                   </Link>
+                  <button
+                    type="button"
+                    onClick={() => setSellingId(car.id)}
+                    style={{ background: 'none', border: '1px solid oklch(0.72 0.17 55 / 0.4)', color: 'oklch(0.85 0.13 55)', fontWeight: 700, fontSize: 13, padding: '8px 14px', borderRadius: 100, cursor: 'pointer' }}
+                  >
+                    Marcar vendida
+                  </button>
                   <button
                     type="button"
                     onClick={() => setConfirmingId(car.id)}

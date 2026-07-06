@@ -42,6 +42,17 @@ db.exec(`
     owner_user_id INTEGER REFERENCES users(id),
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS purchases (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    seller_id INTEGER NOT NULL REFERENCES users(id),
+    buyer_id INTEGER NOT NULL REFERENCES users(id),
+    car_make TEXT NOT NULL,
+    car_model TEXT NOT NULL,
+    score INTEGER,
+    rated_at TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
 `);
 
 // Migración aditiva: nunca se recrea ni se borra veltra.sqlite, así que las
@@ -49,4 +60,12 @@ db.exec(`
 const carsColumns = db.prepare("PRAGMA table_info(cars)").all().map((c) => c.name);
 if (!carsColumns.includes('photos')) {
   db.exec('ALTER TABLE cars ADD COLUMN photos TEXT');
+}
+
+const usersColumns = db.prepare("PRAGMA table_info(users)").all().map((c) => c.name);
+if (!usersColumns.includes('status')) {
+  db.exec("ALTER TABLE users ADD COLUMN status TEXT NOT NULL DEFAULT 'pending'");
+}
+if (!usersColumns.includes('role')) {
+  db.exec("ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'user'");
 }

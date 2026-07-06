@@ -5,6 +5,8 @@ import express from 'express';
 import 'dotenv/config';
 import authRoutes from './routes/auth.js';
 import carsRoutes from './routes/cars.js';
+import purchasesRoutes from './routes/purchases.js';
+import adminRoutes from './routes/admin.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -18,6 +20,8 @@ if (!process.env.JWT_SECRET) {
 app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/cars', carsRoutes);
+app.use('/api/purchases', purchasesRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 const clientDist = path.join(__dirname, '..', '..', 'client', 'dist');

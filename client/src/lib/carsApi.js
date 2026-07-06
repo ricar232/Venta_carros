@@ -28,6 +28,8 @@
 //                                                     // (/uploads/cars/<file>)
 //   ownerUserId: number                               // id of the user who
 //                                                       // published this car
+//   sellerTier: "bronce"|"plata"|"oro"|"platino",         // computed from the
+//   sellerRatingAvg: number, sellerRatingCount: number     // seller's ratings
 // }
 
 const API_BASE = '/api';
@@ -98,4 +100,27 @@ export async function deleteCar(id, token) {
     }
     throw new Error(data.message || 'No se pudo eliminar el anuncio.');
   }
+}
+
+export async function markAsSold(id, buyerEmail, token) {
+  let res;
+  try {
+    res = await fetch(`${API_BASE}/cars/${id}/sold`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ buyerEmail }),
+    });
+  } catch (err) {
+    throw new Error('No se pudo conectar con el servidor. Verifica que el backend esté corriendo.');
+  }
+  let data = {};
+  try {
+    data = await res.json();
+  } catch (err) {
+    data = {};
+  }
+  if (!res.ok) {
+    throw new Error(data.message || 'No se pudo marcar como vendido.');
+  }
+  return data;
 }

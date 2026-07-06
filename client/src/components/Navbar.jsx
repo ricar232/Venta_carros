@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getSession, clearSession } from '../lib/auth.js';
+import { getSession, clearSession, refreshSession } from '../lib/auth.js';
+import { TierChip } from './TierBadge.jsx';
 
 const linkBase = { textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: '14.5px', fontWeight: 600 };
 const linkActive = { textDecoration: 'none', color: 'oklch(0.72 0.17 55)', fontSize: '14.5px', fontWeight: 700 };
@@ -9,6 +10,15 @@ export default function Navbar({ active }) {
   const navigate = useNavigate();
   const [session, setSession] = useState(getSession());
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const token = session.token;
+    if (!token) return;
+    refreshSession(token).then((user) => {
+      if (user) setSession((s) => ({ ...s, user }));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleLogout() {
     clearSession();
@@ -76,8 +86,15 @@ export default function Navbar({ active }) {
         <div className="veltra-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           {session.token ? (
             <>
+              {session.user?.role === 'admin' && (
+                <Link to="/admin" style={active === 'admin' ? linkActive : linkBase}>Admin</Link>
+              )}
+              <Link to="/mis-compras" style={active === 'mis-compras' ? linkActive : linkBase}>Mis compras</Link>
               <Link to="/mis-anuncios" style={active === 'mis-anuncios' ? linkActive : linkBase}>Mis anuncios</Link>
-              <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)' }}>Hola, {(session.user?.name || '').split(' ')[0]}</span>
+              <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                Hola, {(session.user?.name || '').split(' ')[0]}
+                {session.user?.tier && <TierChip tier={session.user.tier} />}
+              </span>
               <button
                 type="button"
                 onClick={handleLogout}
@@ -121,8 +138,15 @@ export default function Navbar({ active }) {
           <Link to="/registro" onClick={() => setMenuOpen(false)} style={linkBase}>Vender</Link>
           {session.token ? (
             <>
+              {session.user?.role === 'admin' && (
+                <Link to="/admin" onClick={() => setMenuOpen(false)} style={active === 'admin' ? linkActive : linkBase}>Admin</Link>
+              )}
+              <Link to="/mis-compras" onClick={() => setMenuOpen(false)} style={active === 'mis-compras' ? linkActive : linkBase}>Mis compras</Link>
               <Link to="/mis-anuncios" onClick={() => setMenuOpen(false)} style={active === 'mis-anuncios' ? linkActive : linkBase}>Mis anuncios</Link>
-              <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)', padding: '12px 4px' }}>Hola, {(session.user?.name || '').split(' ')[0]}</span>
+              <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)', padding: '12px 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                Hola, {(session.user?.name || '').split(' ')[0]}
+                {session.user?.tier && <TierChip tier={session.user.tier} />}
+              </span>
               <button
                 type="button"
                 onClick={handleLogout}

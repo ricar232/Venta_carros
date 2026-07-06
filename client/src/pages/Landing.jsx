@@ -4,6 +4,7 @@ import CarCard from '../components/CarCard.jsx';
 import { useReveal } from '../lib/useReveal.js';
 import { fetchCars, formatPrice } from '../lib/carsApi.js';
 import { getSession, clearSession } from '../lib/auth.js';
+import { TierChip } from '../components/TierBadge.jsx';
 
 const MARQUEE_BRANDS = [
   'Toyota', 'Honda', 'BMW', 'Tesla', 'Mercedes-Benz', 'Ford', 'Mazda', 'Hyundai', 'Kia', 'Volkswagen', 'Nissan', 'Porsche',
@@ -179,8 +180,15 @@ export default function Landing() {
           <div className="veltra-nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             {session.token ? (
               <>
+                {session.user?.role === 'admin' && (
+                  <Link to="/admin" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Admin</Link>
+                )}
+                <Link to="/mis-compras" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Mis compras</Link>
                 <Link to="/mis-anuncios" style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Mis anuncios</Link>
-                <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)' }}>Hola, {(session.user?.name || '').split(' ')[0]}</span>
+                <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  Hola, {(session.user?.name || '').split(' ')[0]}
+                  {session.user?.tier && <TierChip tier={session.user.tier} />}
+                </span>
                 <button
                   type="button"
                   onClick={handleLogout}
@@ -241,8 +249,15 @@ export default function Landing() {
             <a href="#financiamiento" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Financiamiento</a>
             {session.token ? (
               <>
+                {session.user?.role === 'admin' && (
+                  <Link to="/admin" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Admin</Link>
+                )}
+                <Link to="/mis-compras" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Mis compras</Link>
                 <Link to="/mis-anuncios" onClick={() => setMenuOpen(false)} style={{ textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600 }}>Mis anuncios</Link>
-                <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)', padding: '12px 4px' }}>Hola, {(session.user?.name || '').split(' ')[0]}</span>
+                <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)', padding: '12px 4px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  Hola, {(session.user?.name || '').split(' ')[0]}
+                  {session.user?.tier && <TierChip tier={session.user.tier} />}
+                </span>
                 <button
                   type="button"
                   onClick={handleLogout}

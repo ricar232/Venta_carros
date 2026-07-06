@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import CarCard from '../components/CarCard.jsx';
+import { TierFrame, TierChip } from '../components/TierBadge.jsx';
 import { fetchCars, formatPrice, getCarById, similarCars } from '../lib/carsApi.js';
 
 export default function VehicleDetail() {
@@ -61,6 +62,7 @@ export default function VehicleDetail() {
   const placeholder = {
     make: '', model: '', year: '', mileageFmt: '', city: '', priceFmt: '', transmission: '', fuel: '', color: '', doors: '',
     g1: 'oklch(0.4 0.05 30)', g2: 'oklch(0.3 0.05 30)', verified: false, seller: '', sellerTypeLabel: '', sellerInitial: '', rating: '', photos: [],
+    sellerTier: 'bronce', sellerRatingAvg: 0, sellerRatingCount: 0,
   };
   const displayCar = car || placeholder;
   const hasPhotos = displayCar.photos?.length > 0;
@@ -294,27 +296,32 @@ export default function VehicleDetail() {
           <aside style={{ position: 'sticky', top: 94, display: 'flex', flexDirection: 'column', gap: 18 }}>
             <div style={{ padding: 26, borderRadius: 20, background: 'oklch(0.21 0.016 30 / 0.55)', border: '1px solid oklch(1 0 0 / 0.08)', backdropFilter: 'blur(20px)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
-                <div
-                  style={{
-                    width: 52,
-                    height: 52,
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: "'Instrument Serif', serif",
-                    fontSize: 22,
-                    color: 'oklch(0.14 0.012 30)',
-                  }}
-                >
-                  {displayCar.sellerInitial}
-                </div>
+                <TierFrame tier={displayCar.sellerTier}>
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, oklch(0.63 0.20 25), oklch(0.72 0.17 55))',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontFamily: "'Instrument Serif', serif",
+                      fontSize: 22,
+                      color: 'oklch(0.14 0.012 30)',
+                    }}
+                  >
+                    {displayCar.sellerInitial}
+                  </div>
+                </TierFrame>
                 <div>
                   <p style={{ margin: 0, fontWeight: 700, fontSize: 15 }}>{displayCar.seller}</p>
                   <p style={{ margin: '2px 0 0', fontSize: 12.5, color: 'oklch(0.62 0.015 30)' }}>
-                    {displayCar.sellerTypeLabel} · ★ {displayCar.rating}
+                    {displayCar.sellerTypeLabel} · ★ {displayCar.sellerRatingAvg.toFixed(1)} ({displayCar.sellerRatingCount})
                   </p>
+                  <div style={{ marginTop: 6 }}>
+                    <TierChip tier={displayCar.sellerTier} />
+                  </div>
                 </div>
               </div>
               {displayCar.verified && (

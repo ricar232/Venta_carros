@@ -68,3 +68,20 @@ export function getSession() {
     user: userRaw ? JSON.parse(userRaw) : null,
   };
 }
+
+// El estado de aprobación/rol/tier de un usuario puede cambiar del lado del
+// servidor (un admin lo aprueba, acumula calificaciones) sin que su sesión
+// guardada en localStorage se entere. Esto refresca esos datos — se llama
+// al montar componentes que dependen de saber si el usuario está al día.
+export async function refreshSession(token) {
+  let res;
+  try {
+    res = await fetch(`${API_BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+  } catch (err) {
+    return null;
+  }
+  if (!res.ok) return null;
+  const data = await res.json();
+  if (data.user) localStorage.setItem('veltra_user', JSON.stringify(data.user));
+  return data.user || null;
+}

@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
 import CarCard from '../components/CarCard.jsx';
 import { fetchCars, formatPrice } from '../lib/carsApi.js';
+import { TIER_RANK } from '../lib/tier.js';
 
 const ALL_TYPES = ['SUV', 'Sedán', 'Pickup', 'Deportivo', 'Eléctrico'];
 const TRANSMISSIONS = ['Automática', 'Manual'];
@@ -55,7 +56,11 @@ export default function Catalog() {
       if (filters.onlyVerified && !c.verified) return false;
       return true;
     });
-    if (sort === 'price-asc') list = [...list].sort((a, b) => a.price - b.price);
+    if (sort === 'recent') {
+      // Los vendedores de nivel más alto se ven primero; entre vendedores del
+      // mismo nivel se conserva el orden por fecha que ya trae la API.
+      list = [...list].sort((a, b) => (TIER_RANK[b.sellerTier] || 0) - (TIER_RANK[a.sellerTier] || 0));
+    } else if (sort === 'price-asc') list = [...list].sort((a, b) => a.price - b.price);
     else if (sort === 'price-desc') list = [...list].sort((a, b) => b.price - a.price);
     else if (sort === 'year-desc') list = [...list].sort((a, b) => b.year - a.year);
     else if (sort === 'mileage-asc') list = [...list].sort((a, b) => a.mileage - b.mileage);
