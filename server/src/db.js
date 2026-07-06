@@ -69,3 +69,11 @@ if (!usersColumns.includes('status')) {
 if (!usersColumns.includes('role')) {
   db.exec("ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'user'");
 }
+
+// Si ADMIN_EMAIL apunta a una cuenta que ya existía (registrada antes de fijar
+// esa variable, o antes de que existiera el sistema de roles), la promovemos
+// acá en cada arranque — el registro nuevo ya lo hace solo, pero esto cubre
+// cuentas previas sin necesitar un script aparte.
+if (process.env.ADMIN_EMAIL) {
+  db.prepare("UPDATE users SET role = 'admin', status = 'approved' WHERE lower(email) = lower(?)").run(process.env.ADMIN_EMAIL);
+}

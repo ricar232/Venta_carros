@@ -6,10 +6,14 @@ import { fetchCars, formatPrice } from '../lib/carsApi.js';
 import { getSession, clearSession } from '../lib/auth.js';
 import { TierChip } from '../components/TierBadge.jsx';
 
-const MARQUEE_BRANDS = [
-  'Toyota', 'Honda', 'BMW', 'Tesla', 'Mercedes-Benz', 'Ford', 'Mazda', 'Hyundai', 'Kia', 'Volkswagen', 'Nissan', 'Porsche',
-  'Toyota', 'Honda', 'BMW', 'Tesla', 'Mercedes-Benz', 'Ford', 'Mazda', 'Hyundai', 'Kia', 'Volkswagen', 'Nissan', 'Porsche',
+const ALL_BRANDS = [
+  'Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan', 'Hyundai', 'Kia', 'Mazda', 'Volkswagen', 'Subaru',
+  'Jeep', 'Ram', 'GMC', 'Dodge', 'Chrysler', 'Buick', 'Mitsubishi', 'Mini',
+  'BMW', 'Mercedes-Benz', 'Audi', 'Tesla', 'Porsche', 'Volvo', 'Lexus', 'Acura', 'Infiniti', 'Cadillac',
+  'Land Rover', 'Jaguar', 'Fiat', 'Alfa Romeo',
 ];
+
+const MARQUEE_BRANDS = [...ALL_BRANDS, ...ALL_BRANDS];
 
 const STEPS = [
   { n: '1', title: 'Busca y compara', desc: 'Filtra por marca, precio, ciudad y tipo entre miles de anuncios verificados.' },
@@ -387,10 +391,9 @@ export default function Landing() {
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center', background: 'oklch(0.21 0.016 30 / 0.6)', border: '1px solid oklch(1 0 0 / 0.1)', backdropFilter: 'blur(20px)', padding: 10, borderRadius: 100, maxWidth: 640 }}>
               <select style={heroSelectStyle}>
                 <option style={{ color: '#000' }}>Marca</option>
-                <option style={{ color: '#000' }}>Toyota</option>
-                <option style={{ color: '#000' }}>Honda</option>
-                <option style={{ color: '#000' }}>Tesla</option>
-                <option style={{ color: '#000' }}>BMW</option>
+                {ALL_BRANDS.map((b) => (
+                  <option key={b} style={{ color: '#000' }}>{b}</option>
+                ))}
               </select>
               <div style={{ width: 1, height: 24, background: 'oklch(1 0 0 / 0.12)' }} />
               <select style={heroSelectStyle}>
