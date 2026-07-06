@@ -1,9 +1,20 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { getSession, clearSession } from '../lib/auth.js';
 
 const linkBase = { textDecoration: 'none', color: 'oklch(0.9 0.01 30)', fontSize: '14.5px', fontWeight: 600 };
 const linkActive = { textDecoration: 'none', color: 'oklch(0.72 0.17 55)', fontSize: '14.5px', fontWeight: 700 };
 
 export default function Navbar({ active }) {
+  const navigate = useNavigate();
+  const [session, setSession] = useState(getSession());
+
+  function handleLogout() {
+    clearSession();
+    setSession(getSession());
+    navigate('/');
+  }
+
   return (
     <nav
       style={{
@@ -39,7 +50,21 @@ export default function Navbar({ active }) {
           <Link to="/registro" style={linkBase}>Vender</Link>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <Link to="/login" style={linkBase}>Iniciar sesión</Link>
+          {session.token ? (
+            <>
+              <Link to="/mis-anuncios" style={active === 'mis-anuncios' ? linkActive : linkBase}>Mis anuncios</Link>
+              <span style={{ fontSize: 13.5, color: 'oklch(0.6 0.015 30)' }}>Hola, {(session.user?.name || '').split(' ')[0]}</span>
+              <button
+                type="button"
+                onClick={handleLogout}
+                style={{ background: 'none', border: 'none', color: 'oklch(0.9 0.01 30)', fontSize: 14.5, fontWeight: 600, cursor: 'pointer', padding: 0, fontFamily: "'Manrope', sans-serif" }}
+              >
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <Link to="/login" style={linkBase}>Iniciar sesión</Link>
+          )}
           <Link
             to="/publicar"
             className="veltra-cta"

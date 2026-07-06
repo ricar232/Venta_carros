@@ -55,6 +55,11 @@ export function saveSession(data) {
   if (data && data.user) localStorage.setItem('veltra_user', JSON.stringify(data.user));
 }
 
+export function clearSession() {
+  localStorage.removeItem('veltra_token');
+  localStorage.removeItem('veltra_user');
+}
+
 export function getSession() {
   const token = localStorage.getItem('veltra_token');
   const userRaw = localStorage.getItem('veltra_user');

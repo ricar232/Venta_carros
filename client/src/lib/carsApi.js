@@ -26,6 +26,8 @@
 //                                                   // photos is empty.
 //   photos: string[]                                // uploaded photo URLs
 //                                                     // (/uploads/cars/<file>)
+//   ownerUserId: number                               // id of the user who
+//                                                       // published this car
 // }
 
 const API_BASE = '/api';
@@ -75,4 +77,25 @@ export async function createCar(formData, token) {
     throw new Error(data.message || 'Ocurrió un error. Intenta de nuevo.');
   }
   return data;
+}
+
+export async function deleteCar(id, token) {
+  let res;
+  try {
+    res = await fetch(`${API_BASE}/cars/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (err) {
+    throw new Error('No se pudo conectar con el servidor. Verifica que el backend esté corriendo.');
+  }
+  if (!res.ok) {
+    let data = {};
+    try {
+      data = await res.json();
+    } catch (err) {
+      data = {};
+    }
+    throw new Error(data.message || 'No se pudo eliminar el anuncio.');
+  }
 }

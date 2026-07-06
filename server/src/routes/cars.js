@@ -1,8 +1,10 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { Router } from 'express';
 import multer from 'multer';
 import { db } from '../db.js';
 import { requireAuth } from '../middleware/auth.js';
-import { uploadCarPhotos } from '../middleware/upload.js';
+import { uploadCarPhotos, carPhotosDir } from '../middleware/upload.js';
 
 const router = Router();
 
@@ -53,6 +55,7 @@ function toApiShape(row) {
     g1: row.g1,
     g2: row.g2,
     photos: JSON.parse(row.photos || '[]').map((f) => `/uploads/cars/${f}`),
+    ownerUserId: row.owner_user_id,
   };
 }
 
@@ -105,6 +108,25 @@ router.post('/', requireAuth, handlePhotoUpload, (req, res) => {
 
   const row = db.prepare('SELECT * FROM cars WHERE id = ?').get(info.lastInsertRowid);
   res.status(201).json(toApiShape(row));
+});
+
+router.delete('/:id', requireAuth, (req, res) => {
+  const row = db.prepare('SELECT * FROM cars WHERE id = ?').get(req.params.id);
+  if (!row) return res.status(404).json({ message: 'Anuncio no encontrado.' });
+  if (Number(row.owner_user_id) !== Number(req.userId)) {
+    return res.status(403).json({ message: 'No podés eliminar un anuncio que no es tuyo.' });
+  }
+
+  JSON.parse(row.photos || '[]').forEach((filename) => {
+    try {
+      fs.unlinkSync(path.join(carPhotosDir, filename));
+    } catch {
+      // el archivo ya no está — no es un error real
+    }
+  });
+
+  db.prepare('DELETE FROM cars WHERE id = ?').run(row.id);
+  res.status(204).end();
 });
 
 export default router;

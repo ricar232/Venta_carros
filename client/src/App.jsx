@@ -5,6 +5,7 @@ import VehicleDetail from './pages/VehicleDetail.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import PublishListing from './pages/PublishListing.jsx';
+import MyListings from './pages/MyListings.jsx';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/registro" element={<Register />} />
       <Route path="/publicar" element={<PublishListing />} />
+      <Route path="/mis-anuncios" element={<MyListings />} />
     </Routes>
   );
 }
